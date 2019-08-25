@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "57459034216",
+    "firebase_url": "https://bansa-33351.firebaseio.com",
+    "project_id": "bansa-33351",
+    "storage_bucket": "bansa-33351.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:57459034216:android:513e6f17654bac0d",
+        "android_client_info": {
+          "package_name": "com.stevechulsdev.bansa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "57459034216-aa12l1r697knv7nptjfcpdanmumipuda.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.stevechulsdev.bansa",
+            "certificate_hash": "260800e5d0a1fa46516ea665df27f2d9009e1fba"
+          }
+        },
+        {
+          "client_id": "57459034216-v97ui7q9mlg7a62tu61engrjmencubin.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPHkMD5sT-zpqJGWgIyT7clU62L46zXt0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "57459034216-v97ui7q9mlg7a62tu61engrjmencubin.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
