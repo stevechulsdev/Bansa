@@ -33,32 +33,34 @@ android {
             applicationId "com.stevechulsdev.bansa"
             minSdkVersion 21
             targetSdkVersion 29
-            versionCode 1
+            versionCode code
             versionName "1.0.0"
             testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
             archivesBaseName = "Bansa_" + versionCode + "_" + versionName + "_" + new Date().format("yyyyMMddhhmmss")
+
+            buildConfigField "String", "GOOGLE_API_KEY", "\""+getUsername()+"\""
         }
     } else {
         throw new GradleException("Could not read version.properties")
     }
 
     Properties localProps = new Properties()
-    localProps.load(new FileInputStream(file('../local.properties')))
+    localProps.load(project.rootProject.file('local.properties').newDataInputStream())
 
     // Keystore information variable
     signingConfigs {
         releaseWithSignedKey {
-            storeFile file(localProps.SIGNED_STORE_FILE)
-            storePassword localProps.SIGNED_STORE_PASSWORD
-            keyAlias localProps.SIGNED_KEY_ALIAS
-            keyPassword localProps.SIGNED_KEY_PASSWORD
+            storeFile file(localProps.getProperty("SIGNED_STORE_FILE"))
+            storePassword localProps.getProperty("SIGNED_STORE_PASSWORD")
+            keyAlias localProps.getProperty("SIGNED_KEY_ALIAS")
+            keyPassword localProps.getProperty("SIGNED_KEY_PASSWORD")
         }
     }
 
     buildTypes {
         debug {
             debuggable true
-            applicationIdSuffix '.debug'
+//            applicationIdSuffix '.debug'
             // Suffix for package name, example "com.codberg.nkp.debug"
             resValue "string", "app_name", "반사-debug"  // App name for the debug apk
             minifyEnabled false
@@ -74,6 +76,16 @@ android {
             shrinkResources true    // shrink resources
         }
     }
+
+    dataBinding{
+        enabled = true
+    }
+}
+
+def getUsername() {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    return properties.getProperty("GOOGLE_API_KEY")
 }
 
 dependencies {
@@ -93,7 +105,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:21.0.0'      // cloud firestore
 
     // stevechulsdev Library
-    implementation 'com.github.stevechulsdev:ScSns:1.0.4'           // ScSns
+//    implementation 'com.github.stevechulsdev:ScSns:1.0.5'           // ScSns
     implementation 'com.github.stevechulsdev:ScLog:1.0.8'           // ScLog
     implementation 'com.github.stevechulsdev:ScDisplayUtils:1.0.2'  // ScDisplayUtils
     implementation 'com.github.stevechulsdev:ScNetwork:1.0.1'       // ScNetwork
@@ -101,3 +113,5 @@ dependencies {
     // anko
     implementation 'org.jetbrains.anko:anko-commons:0.10.8'     // commons
 }
+
+apply plugin: 'com.google.gms.google-services'

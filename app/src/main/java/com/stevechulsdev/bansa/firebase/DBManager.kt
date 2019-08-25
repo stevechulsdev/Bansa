@@ -6,38 +6,50 @@ import com.stevechulsdev.sclog.ScLog
 class DBManager {
     var db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
-    private fun setUserData(nickname: String, pw: String): HashMap<String, String> {
+    private fun setUserData(nickname: String): HashMap<String, String> {
         return hashMapOf(
-            "nickname" to nickname,
-            "pw" to pw
+            "nickname" to nickname
         )
     }
 
-    private fun insertUserData(uid: String, nickname: String, pw: String) {
-        // Create a new user with a first and last name
-        val userData = setUserData(nickname, pw)
+    fun insertUserData(uid: String, nickname: String, onStatusListener: OnInsertStatusListener) {
+        // Create a new UserData with a first and last name
+        val userData = setUserData(nickname)
 
         // Add a new document with a generated ID
-        db.collection("user")
+        db.collection("UserData")
             .document(uid)
             .set(userData)
             .addOnSuccessListener {
                 ScLog.e(true, "success insert")
+                onStatusListener.onSuccess()
             }
             .addOnFailureListener { e ->
                 ScLog.e(true, "Error adding document : $e")
+                onStatusListener.onFail(e)
             }
     }
 
-    private fun readUserData(uid: String) {
-        db.collection("user")
+    fun readUserData(uid: String, onStatusListener: OnReadStatusListener) {
+        db.collection("UserData")
             .document(uid)
             .get()
             .addOnSuccessListener {
-                ScLog.e(true, "${it.get("nickname")}")
+                ScLog.e(true, "uid : ${it.id}, nickname : ${it.data?.get("nickname")}")
+                onStatusListener.onSuccess(it.id, it.data?.get("nickname").toString())
             }
             .addOnFailureListener { exception ->
                 ScLog.e(true, "Error getting documents : $exception")
             }
+    }
+
+    interface OnInsertStatusListener {
+        fun onSuccess()
+        fun onFail(e: Exception)
+    }
+
+    interface OnReadStatusListener {
+        fun onSuccess(uid: String, nickname: String)
+        fun onFail(e: Exception)
     }
 }
