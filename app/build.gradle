@@ -7,18 +7,71 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.0"
-    defaultConfig {
-        applicationId "com.stevechulsdev.bansa"
-        minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+    // Increase the [VERSION_CODE] variable in the "version.properties"
+    def versionPropsFile = file('version.properties')
+
+    if(versionPropsFile.canRead()) {
+        Properties versionProps = new Properties()
+
+        versionProps.load(new FileInputStream(versionPropsFile))
+
+        // Increase "value" variable only for export the release apk
+        def value = 0
+        def runTasks = gradle.startParameter.taskNames
+        if('assemble' in runTasks || 'assembleRelease' in runTasks || 'aR' in runTasks) {
+            value = 1
+        }
+
+        def code = versionProps['VERSION_CODE'].toInteger() + value
+
+        versionProps['VERSION_CODE'] = code.toString()
+
+        versionProps.store(versionPropsFile.newWriter(), null)
+
+        defaultConfig {
+            applicationId "com.stevechulsdev.bansa"
+            minSdkVersion 21
+            targetSdkVersion 29
+            versionCode 1
+            versionName "1.0.0"
+            testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+            archivesBaseName = "Bansa_" + versionCode + "_" + versionName + "_" + new Date().format("yyyyMMddhhmmss")
+        }
     }
+    else {
+        throw new GradleException("Could not read version.properties")
+    }
+
+    Properties localProps = new Properties()
+    localProps.load(new FileInputStream(file('../local.properties')))
+
+    // Keystore information variable
+    signingConfigs {
+        releaseWithSignedKey {
+            storeFile file(localProps.SIGNED_STORE_FILE)
+            storePassword localProps.SIGNED_STORE_PASSWORD
+            keyAlias localProps.SIGNED_KEY_ALIAS
+            keyPassword localProps.SIGNED_KEY_PASSWORD
+        }
+    }
+
     buildTypes {
-        release {
+        debug {
+            debuggable true
+            applicationIdSuffix '.debug'                // Suffix for package name, example "com.codberg.nkp.debug"
+            resValue "string", "app_name", "반사-debug"  // App name for the debug apk
             minifyEnabled false
+            shrinkResources false
+            useProguard false   // Setting the proguard is unused
+        }
+        release {
+            debuggable false
+            signingConfig signingConfigs.releaseWithSignedKey
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            resValue "string", "app_name", "반사"    // App name for the release apk
+            minifyEnabled true      // minify unused source code
+            shrinkResources true    // shrink resources
         }
     }
 }
