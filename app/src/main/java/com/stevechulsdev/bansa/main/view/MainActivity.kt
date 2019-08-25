@@ -1,7 +1,8 @@
-package com.stevechulsdev.bansa
+package com.stevechulsdev.bansa.main.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.stevechulsdev.bansa.R
 
 class MainActivity : AppCompatActivity() {
 

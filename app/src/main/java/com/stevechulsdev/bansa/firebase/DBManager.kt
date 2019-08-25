@@ -1,4 +1,4 @@
-package com.stevechulsdev.bansa
+package com.stevechulsdev.bansa.firebase
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.stevechulsdev.sclog.ScLog
