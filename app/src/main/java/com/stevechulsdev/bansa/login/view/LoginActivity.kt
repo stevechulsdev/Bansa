@@ -23,7 +23,6 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
 //        FirebaseApp.initializeApp(this)
 //        val dataBinding = DataBindingUtil.setContentView<ActivityLoginBinding>(this, R.layout.activity_login) as ActivityLoginBinding
 
@@ -106,7 +105,7 @@ class LoginActivity : AppCompatActivity() {
                 }
                 else {
                     // timestamp is nickname
-                    val nickname = System.currentTimeMillis().toString()
+                    val nickname = System.currentTimeMillis().toString().substring(7)
 
                     DBManager().insertUserData(googleUid, nickname, object : DBManager.OnInsertStatusListener {
                         override fun onSuccess() {

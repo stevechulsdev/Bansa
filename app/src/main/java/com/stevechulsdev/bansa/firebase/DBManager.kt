@@ -34,6 +34,11 @@ class DBManager {
         db.collection("UserData")
             .get()
             .addOnSuccessListener {
+                if(it.documents.size <= 0) {
+                    onStatusListener.onSuccess(false, "", "")
+                    return@addOnSuccessListener
+                }
+
                 for(document in it.documents) {
                     if(document.id == uid) {
                         onStatusListener.onSuccess(true, document.id, document.get("nickname").toString())
