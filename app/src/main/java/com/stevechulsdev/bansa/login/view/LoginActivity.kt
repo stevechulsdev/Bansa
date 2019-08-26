@@ -3,7 +3,6 @@ package com.stevechulsdev.bansa.login.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseUser
 import com.stevechulsdev.bansa.R
@@ -86,9 +85,9 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setUserData(googleUid: String) {
-        DBManager().readUserData(googleUid, object : DBManager.OnReadStatusListener {
-            override fun onSuccess(uid: String, nickname: String) {
-                if(googleUid == uid) {
+        DBManager().checkUserData(googleUid, object : DBManager.OnCheckStatusListener {
+            override fun onSuccess(isMember: Boolean, uid: String, nickname: String) {
+                if(isMember) {
                     Toast.makeText(this@LoginActivity, "이미 가입된 회원입니다.", Toast.LENGTH_SHORT).show()
 
                     Utils.setLocalUserDataUid(this@LoginActivity, googleUid)

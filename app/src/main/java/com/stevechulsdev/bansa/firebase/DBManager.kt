@@ -30,13 +30,18 @@ class DBManager {
             }
     }
 
-    fun readUserData(uid: String, onStatusListener: OnReadStatusListener) {
+    fun checkUserData(uid: String, onStatusListener: OnCheckStatusListener) {
         db.collection("UserData")
-            .document(uid)
             .get()
             .addOnSuccessListener {
-                ScLog.e(true, "uid : ${it.id}, nickname : ${it.data?.get("nickname")}")
-                onStatusListener.onSuccess(it.id, it.data?.get("nickname").toString())
+                for(document in it.documents) {
+                    if(document.id == uid) {
+                        onStatusListener.onSuccess(true, document.id, document.get("nickname").toString())
+                    }
+                    else {
+                        onStatusListener.onSuccess(false, "", "")
+                    }
+                }
             }
             .addOnFailureListener { exception ->
                 ScLog.e(true, "Error getting documents : $exception")
@@ -48,8 +53,8 @@ class DBManager {
         fun onFail(e: Exception)
     }
 
-    interface OnReadStatusListener {
-        fun onSuccess(uid: String, nickname: String)
+    interface OnCheckStatusListener {
+        fun onSuccess(isMember: Boolean, uid: String, nickname: String)
         fun onFail(e: Exception)
     }
 }
