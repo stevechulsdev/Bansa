@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "57459034216-u131o16k7kdg2f3gq129piqf9t44nkk5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.stevechulsdev.bansa",
+            "certificate_hash": "57dafada6a4c6f32d95de0547371988a5f8c083c"
+          }
+        },
+        {
           "client_id": "57459034216-crl9n1kgu1ameo1qgal812ljei321pab.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
