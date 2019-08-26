@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="login_popup_title">20sp</dimen>
+    <dimen name="login_popup_title">28sp</dimen>
     <dimen name="login_popup_go_back">10sp</dimen>
     <dimen name="login_popup_button_google">15sp</dimen>
     <dimen name="login_popup_button_kakao">15sp</dimen>
