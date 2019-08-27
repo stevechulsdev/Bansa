@@ -13,6 +13,7 @@ class DBManager {
     }
 
     fun insertUserData(uid: String, nickname: String, onStatusListener: OnInsertStatusListener) {
+
         // Create a new UserData with a first and last name
         val userData = setUserData(nickname)
 
@@ -35,18 +36,18 @@ class DBManager {
             .get()
             .addOnSuccessListener {
                 if(it.documents.size <= 0) {
-                    onStatusListener.onSuccess(false, "", "")
+                    onStatusListener.onSuccess(false, uid, "")
                     return@addOnSuccessListener
                 }
 
                 for(document in it.documents) {
                     if(document.id == uid) {
                         onStatusListener.onSuccess(true, document.id, document.get("nickname").toString())
-                    }
-                    else {
-                        onStatusListener.onSuccess(false, "", "")
+                        return@addOnSuccessListener
                     }
                 }
+
+                onStatusListener.onSuccess(false, uid, "")
             }
             .addOnFailureListener { exception ->
                 ScLog.e(true, "Error getting documents : $exception")
