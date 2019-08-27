@@ -67,13 +67,6 @@
                     android:text="@string/login_popup_button_google"
                     android:textSize="@dimen/login_popup_button_google"/>
 
-                <com.kakao.usermgmt.LoginButton
-                    android:id="@+id/bt_kakao_login"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:visibility="gone"/>
-
                 <Button
                     android:id="@+id/bt_custom_kakao_login"
                     android:layout_width="match_parent"

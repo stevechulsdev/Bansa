@@ -70,6 +70,8 @@ class LoginActivity : AppCompatActivity() {
         }
 
         bt_custom_kakao_login.setOnClickListener {
+            ScDisplayUtils.showProgressBar(this)
+
             // 이게 로그인 되었는지 체크를 함
             val session = Session.getCurrentSession()
             callback = SessionCallback()
@@ -101,7 +103,7 @@ class LoginActivity : AppCompatActivity() {
                         override fun success(user: FirebaseUser) {
                             ScLog.e(Constants.IS_DEBUG, "ScSnsGoogle.getUser success")
 
-                            setUserData(user.uid)
+                            setUserData(user.uid, Constants.LoginType.GOOGLE)
                         }
 
                         override fun fail(errorMsg: String) {
@@ -116,7 +118,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun setUserData(uid: String) {
+    private fun setUserData(uid: String, loginType: Constants.LoginType) {
         DBManager().checkUserData(uid, object : DBManager.OnCheckStatusListener {
             override fun onSuccess(isMember: Boolean, uid: String, nickname: String) {
                 if(isMember) {
@@ -124,9 +126,11 @@ class LoginActivity : AppCompatActivity() {
 
                     Utils.setLocalUserDataUid(this@LoginActivity, uid)
                     Utils.setLocalUserDataNickName(this@LoginActivity, nickname)
+                    Utils.setLocalUserDataLoginType(this@LoginActivity, loginType)
 
                     LocalPreference.userUid = uid
                     LocalPreference.userNickName = nickname
+                    LocalPreference.loginType = loginType.name
 
                     setResult(Constants.RESULT_CODE_BACK_LOGIN)
                     finish()
@@ -140,13 +144,15 @@ class LoginActivity : AppCompatActivity() {
                     // timestamp is nickname
                     val nickname = System.currentTimeMillis().toString().substring(7)
 
-                    DBManager().insertUserData(uid, nickname, object : DBManager.OnInsertStatusListener {
+                    DBManager().insertUserData(uid, nickname, loginType.name, object : DBManager.OnInsertStatusListener {
                         override fun onSuccess() {
                             Utils.setLocalUserDataUid(this@LoginActivity, uid)
                             Utils.setLocalUserDataNickName(this@LoginActivity, nickname)
+                            Utils.setLocalUserDataLoginType(this@LoginActivity, loginType)
 
                             LocalPreference.userUid = uid
                             LocalPreference.userNickName = nickname
+                            LocalPreference.loginType = loginType.name
 
                             setResult(Constants.RESULT_CODE_BACK_LOGIN)
                             finish()
@@ -180,7 +186,7 @@ class LoginActivity : AppCompatActivity() {
                         ScLog.e(true, "nickname : ${result.nickname}")
                         ScLog.e(true, "id : ${result.profileImagePath}")
 
-                        setUserData(result.id.toString())
+                        setUserData(result.id.toString(), Constants.LoginType.KAKAO)
 
 //                        startActivity<MainActivity>()
 //                        finish()
@@ -202,17 +208,21 @@ class LoginActivity : AppCompatActivity() {
                     errorResult?.let {
                         ScLog.e(true, "UserManagement.getInstance().me error : $errorResult")
                     }
+
+                    ScDisplayUtils.hideProgressBar()
                 }
             })
-            startActivity<MainActivity>()
-            finish()
-            overridePendingTransition(0,0)
+//            startActivity<MainActivity>()
+//            finish()
+//            overridePendingTransition(0,0)
         }
 
         override fun onSessionOpenFailed(exception: KakaoException?) {
             exception?.let {
                 ScLog.e(true, "SessionCallback onSessionOpenFailed error : $exception")
             }
+
+            ScDisplayUtils.hideProgressBar()
         }
     }
 }

@@ -6,9 +6,11 @@ object Constants {
     val IS_DEBUG = BuildConfig.DEBUG
 
     // SharedPreferences
-    const val LOCAL_DATA_FILENAME = "UserData"          // File Name
-    const val LOCAL_DATA_KEY_USER_UID = "uid"          // key UserData uid
+    const val LOCAL_DATA_FILENAME = "UserData"              // File Name
+    const val LOCAL_DATA_KEY_USER_UID = "uid"               // key UserData uid
     const val LOCAL_DATA_KEY_USER_NICKNAME = "nickname"     // key UserData nickname
+    const val LOCAL_DATA_KEY_USER_LOGIN_TYPE = "loginType"  // key UserData Login Type
+    const val LOCAL_DATA_KEY_USER_IS_LOGIN = "isLogin"      // key UserData isLogin
 
     // Splash
     const val SPLASH_TIME = 2000L
@@ -30,4 +32,10 @@ object Constants {
 
     // Result Code
     const val RESULT_CODE_BACK_LOGIN = 8001         // Back Login Activity
+
+    enum class LoginType {
+        GOOGLE,
+        KAKAO,
+        NONE
+    }
 }
