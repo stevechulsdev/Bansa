@@ -2,7 +2,6 @@ package com.stevechulsdev.bansa
 
 import android.app.Application
 import android.content.Context
-import com.kakao.auth.*
 import com.stevechulsdev.bansa.etc.Constants
 import com.stevechulsdev.bansa.etc.LocalPreference
 import com.stevechulsdev.bansa.etc.Utils
@@ -21,42 +20,8 @@ class App: Application() {
         }
     }
 
-    // kakao login
-    object KakaoSDKAdapter: KakaoAdapter() {
-        override fun getSessionConfig(): ISessionConfig {
-            return object : ISessionConfig {
-                override fun getAuthTypes(): Array<AuthType> {
-                    return arrayOf(AuthType.KAKAO_TALK)
-                }
-
-                override fun isUsingWebviewTimer(): Boolean {
-                    return false
-                }
-
-                override fun isSecureMode(): Boolean {
-                    return false
-                }
-
-                override fun getApprovalType(): ApprovalType? {
-                    return ApprovalType.INDIVIDUAL
-                }
-
-                override fun isSaveFormData(): Boolean {
-                    return true
-                }
-            }
-        }
-
-        override fun getApplicationConfig(): IApplicationConfig {
-            return IApplicationConfig { globalContext() }
-        }
-    }
-
     override fun onCreate() {
         super.onCreate()
-
-        // kakao login init
-        KakaoSDK.init(KakaoSDKAdapter)
 
         if(!Utils.getLocalUserDataString(globalContext(), Constants.LOCAL_DATA_KEY_USER_UID).isNullOrEmpty()) {
             LocalPreference.userUid = Utils.getLocalUserDataString(globalContext(), Constants.LOCAL_DATA_KEY_USER_UID)!!

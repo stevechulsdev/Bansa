@@ -19,6 +19,7 @@ import com.stevechulsdev.bansa.etc.LocalPreference
 import com.stevechulsdev.bansa.etc.Utils
 import com.stevechulsdev.bansa.firebase.DBManager
 import com.stevechulsdev.bansa.firebase.ScSnsGoogle
+import com.stevechulsdev.bansa.kakao.KakaoManager
 import com.stevechulsdev.bansa.login.viewmodel.LoginViewModel
 import com.stevechulsdev.bansa.main.view.MainActivity
 import com.stevechulsdev.scdisplayutils.ScDisplayUtils
@@ -71,6 +72,8 @@ class LoginActivity : AppCompatActivity() {
 
         bt_custom_kakao_login.setOnClickListener {
             ScDisplayUtils.showProgressBar(this)
+
+            KakaoManager().initKakao()
 
             // 이게 로그인 되었는지 체크를 함
             val session = Session.getCurrentSession()

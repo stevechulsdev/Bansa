@@ -11,6 +11,7 @@ import com.stevechulsdev.bansa.etc.Constants
 import com.stevechulsdev.bansa.etc.LocalPreference
 import com.stevechulsdev.bansa.etc.Utils
 import com.stevechulsdev.bansa.firebase.ScSnsGoogle
+import com.stevechulsdev.bansa.kakao.KakaoManager
 import com.stevechulsdev.bansa.login.view.LoginActivity
 import com.stevechulsdev.scdisplayutils.ScDisplayUtils
 import kotlinx.android.synthetic.main.activity_main.*
@@ -50,6 +51,8 @@ class MainActivity : AppCompatActivity() {
                     })
                 }
                 else if(LocalPreference.loginType == Constants.LoginType.KAKAO.name){
+                    KakaoManager().initKakao()
+
                     UserManagement.getInstance().requestLogout(object : LogoutResponseCallback() {
                         override fun onCompleteLogout() {
                             Utils.setLocalUserDataIsLogin(this@MainActivity, false)
