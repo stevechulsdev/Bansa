@@ -114,7 +114,7 @@ dependencies {
     // stevechulsdev Library
 //    implementation 'com.github.stevechulsdev:ScSns:1.0.5'           // ScSns
     implementation 'com.github.stevechulsdev:ScLog:1.0.8'           // ScLog
-    implementation 'com.github.stevechulsdev:ScDisplayUtils:1.0.2'  // ScDisplayUtils
+    implementation 'com.github.stevechulsdev:ScDisplayUtils:1.0.3'  // ScDisplayUtils
     implementation 'com.github.stevechulsdev:ScNetwork:1.0.1'       // ScNetwork
 
     // anko
