@@ -38,7 +38,8 @@ android {
             testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
             archivesBaseName = "Bansa_" + versionCode + "_" + versionName + "_" + new Date().format("yyyyMMddhhmmss")
 
-            buildConfigField "String", "GOOGLE_API_KEY", "\""+getUsername()+"\""
+            buildConfigField "String", "GOOGLE_API_KEY", "\""+getGoogleApiKey()+"\""
+            buildConfigField "String", "KAKAO_API_KEY", "\""+getKakaoApiKey()+"\""
         }
     } else {
         throw new GradleException("Could not read version.properties")
@@ -82,10 +83,16 @@ android {
     }
 }
 
-def getUsername() {
+def getGoogleApiKey() {
     Properties properties = new Properties()
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
     return properties.getProperty("GOOGLE_API_KEY")
+}
+
+def getKakaoApiKey() {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    return properties.getProperty("KAKAO_API_KEY")
 }
 
 dependencies {
@@ -112,6 +119,9 @@ dependencies {
 
     // anko
     implementation 'org.jetbrains.anko:anko-commons:0.10.8'     // commons
+
+    // kakao login
+    implementation group: 'com.kakao.sdk', name: 'usermgmt', version: '1.21.1'
 }
 
 apply plugin: 'com.google.gms.google-services'
