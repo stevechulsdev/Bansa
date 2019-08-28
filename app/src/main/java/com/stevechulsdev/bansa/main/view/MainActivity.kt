@@ -3,6 +3,7 @@ package com.stevechulsdev.bansa.main.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import com.kakao.network.ErrorResult
 import com.kakao.usermgmt.UserManagement
 import com.kakao.usermgmt.callback.LogoutResponseCallback
@@ -10,6 +11,7 @@ import com.stevechulsdev.bansa.R
 import com.stevechulsdev.bansa.etc.Constants
 import com.stevechulsdev.bansa.etc.LocalPreference
 import com.stevechulsdev.bansa.etc.Utils
+import com.stevechulsdev.bansa.firebase.FCMService
 import com.stevechulsdev.bansa.firebase.ScSnsGoogle
 import com.stevechulsdev.bansa.kakao.KakaoManager
 import com.stevechulsdev.bansa.login.view.LoginActivity
@@ -24,14 +26,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         bt_login.setOnClickListener {
-            if(!LocalPreference.isLogin) {
-                startActivityForResult<LoginActivity>(Constants.REQUEST_CODE_GO_LOGIN)
-                overridePendingTransition(0,0)
-            }
-            else {
-                ScDisplayUtils.toast(this, "이미 로그인 되어있습니다.")
-                tv_info.text = "uid : ${LocalPreference.userUid}\nnickname : ${LocalPreference.userNickName}\nloginType : ${LocalPreference.loginType}"
-            }
+            Handler().postDelayed({
+                Utils.sendLocalPush(this, "반사", "로그인 되었습니다.")
+            }, 2000)
+
+//            if(!LocalPreference.isLogin) {
+//                startActivityForResult<LoginActivity>(Constants.REQUEST_CODE_GO_LOGIN)
+//                overridePendingTransition(0,0)
+//            }
+//            else {
+//                ScDisplayUtils.toast(this, "이미 로그인 되어있습니다.")
+//                tv_info.text = "uid : ${LocalPreference.userUid}\nnickname : ${LocalPreference.userNickName}\nloginType : ${LocalPreference.loginType}"
+//            }
         }
 
         bt_logout.setOnClickListener {
