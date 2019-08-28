@@ -57,8 +57,8 @@ object Utils {
         setLocalUserDataString(context, Constants.LOCAL_DATA_KEY_USER_NICKNAME, value)
     }
 
-    fun setLocalUserDataLoginType(context: Context, loginType: Constants.LoginType) {
-        setLocalUserDataString(context, Constants.LOCAL_DATA_KEY_USER_LOGIN_TYPE, loginType.name)
+    fun setLocalUserDataLoginType(context: Context, loginType: String) {
+        setLocalUserDataString(context, Constants.LOCAL_DATA_KEY_USER_LOGIN_TYPE, loginType)
     }
 
     fun setLocalUserDataIsLogin(context: Context, value: Boolean) {

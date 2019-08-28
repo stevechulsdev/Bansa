@@ -66,7 +66,7 @@
                     android:layout_weight="1"
                     android:text="@string/login_popup_button_google"
                     android:textSize="@dimen/login_popup_button_google"
-                    android:onClick="@{() -> vm.onClickGoBack()}"/>
+                    android:onClick="@{() -> vm.onClickGoogleLogin()}"/>
 
                 <Button
                     android:id="@+id/bt_custom_kakao_login"
@@ -74,7 +74,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="@string/login_popup_button_kakao"
-                    android:textSize="@dimen/login_popup_button_kakao"/>
+                    android:textSize="@dimen/login_popup_button_kakao"
+                    android:onClick="@{() -> vm.onClickKakaoLogin()}"/>
 
             </LinearLayout>
 
@@ -103,7 +104,8 @@
                 android:text="@string/login_popup_go_back"
                 android:textSize="@dimen/login_popup_go_back"
                 android:textColor="#000000"
-                android:textStyle="italic"/>
+                android:textStyle="italic"
+                android:onClick="@{() -> vm.onClickGoBack()}"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
