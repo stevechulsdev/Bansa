@@ -4,6 +4,8 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.stevechulsdev.scdisplayutils.ScDisplayUtils
+import com.stevechulsdev.sclog.ScLog
 
 class LoginViewModel: ViewModel() {
 
@@ -15,7 +17,8 @@ class LoginViewModel: ViewModel() {
 
     }
 
-    fun onClickGoBack(view: View) {
+    fun onClickGoBack() {
+        ScLog.e(true, "Click!!!!!!!!!!!!!!!!!!!!")
         callOnClickGoBack.postValue(null)
     }
 }

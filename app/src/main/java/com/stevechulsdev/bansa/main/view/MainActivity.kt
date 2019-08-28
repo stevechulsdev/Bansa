@@ -26,18 +26,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         bt_login.setOnClickListener {
-            Handler().postDelayed({
-                Utils.sendLocalPush(this, "반사", "로그인 되었습니다.")
-            }, 2000)
-
-//            if(!LocalPreference.isLogin) {
-//                startActivityForResult<LoginActivity>(Constants.REQUEST_CODE_GO_LOGIN)
-//                overridePendingTransition(0,0)
-//            }
-//            else {
-//                ScDisplayUtils.toast(this, "이미 로그인 되어있습니다.")
-//                tv_info.text = "uid : ${LocalPreference.userUid}\nnickname : ${LocalPreference.userNickName}\nloginType : ${LocalPreference.loginType}"
-//            }
+            if(!LocalPreference.isLogin) {
+                startActivityForResult<LoginActivity>(Constants.REQUEST_CODE_GO_LOGIN)
+                overridePendingTransition(0,0)
+            }
+            else {
+                ScDisplayUtils.toast(this, "이미 로그인 되어있습니다.")
+                tv_info.text = "uid : ${LocalPreference.userUid}\nnickname : ${LocalPreference.userNickName}\nloginType : ${LocalPreference.loginType}"
+            }
         }
 
         bt_logout.setOnClickListener {

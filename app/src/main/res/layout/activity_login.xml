@@ -65,7 +65,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="@string/login_popup_button_google"
-                    android:textSize="@dimen/login_popup_button_google"/>
+                    android:textSize="@dimen/login_popup_button_google"
+                    android:onClick="@{() -> vm.onClickGoBack()}"/>
 
                 <Button
                     android:id="@+id/bt_custom_kakao_login"

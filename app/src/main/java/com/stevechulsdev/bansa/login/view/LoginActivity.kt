@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import com.google.firebase.auth.FirebaseUser
 import com.kakao.auth.AuthType
 import com.kakao.auth.ISessionCallback
@@ -13,6 +15,7 @@ import com.kakao.usermgmt.UserManagement
 import com.kakao.usermgmt.callback.MeV2ResponseCallback
 import com.kakao.usermgmt.response.MeV2Response
 import com.kakao.util.exception.KakaoException
+import com.stevechulsdev.bansa.BR
 import com.stevechulsdev.bansa.R
 import com.stevechulsdev.bansa.etc.Constants
 import com.stevechulsdev.bansa.etc.LocalPreference
@@ -24,7 +27,6 @@ import com.stevechulsdev.bansa.login.viewmodel.LoginViewModel
 import com.stevechulsdev.bansa.main.view.MainActivity
 import com.stevechulsdev.scdisplayutils.ScDisplayUtils
 import com.stevechulsdev.sclog.ScLog
-import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.startActivity
 
 class LoginActivity : AppCompatActivity() {
@@ -35,52 +37,53 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+//        setContentView(R.layout.activity_login)
+
+        var mViewDataBinding = DataBindingUtil.setContentView<ViewDataBinding>(this, R.layout.activity_login)
+        mViewDataBinding.setVariable(BR.vm, loginViewModel)
 
 //        KakaoSDK.init(KakaoSDK.getAdapter())
-
 //        FirebaseApp.initializeApp(this)
 //        val dataBinding = DataBindingUtil.setContentView<ActivityLoginBinding>(this, R.layout.activity_login) as ActivityLoginBinding
-
 //        loginViewModel = LoginViewModel()
 //        dataBinding.vm = loginViewModel
-
 //        loginViewModel.liveDataOnClickGoBack.observe(this, Observer {
 //            finish()
 //            overridePendingTransition(0,0)
 //        })
-
 //        loginViewModel.onCreate()
 
-        tv_go_back.setOnClickListener {
-            finish()
-            overridePendingTransition(0,0)
-        }
 
-        bt_google_login.setOnClickListener {
-            ScSnsGoogle.initLogin(this, Constants.GOOGLE_API_KEY)
 
-            if(!ScSnsGoogle.isLogin()) {
-                // show progressbar
-                ScDisplayUtils.showProgressBar(this)
-                ScSnsGoogle.login(this, Constants.REQUEST_CODE_GOOGLE_LOGIN)
-            }
-            else {
-                Toast.makeText(this, "이미 로그인 되어 있습니다.", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        bt_custom_kakao_login.setOnClickListener {
-            ScDisplayUtils.showProgressBar(this)
-
-            KakaoManager().initKakao()
-
-            // 이게 로그인 되었는지 체크를 함
-            val session = Session.getCurrentSession()
-            callback = SessionCallback()
-            session.addCallback(callback)
-            session.open(AuthType.KAKAO_TALK, this)
-        }
+//        tv_go_back.setOnClickListener {
+//            finish()
+//            overridePendingTransition(0,0)
+//        }
+//
+//        bt_google_login.setOnClickListener {
+//            ScSnsGoogle.initLogin(this, Constants.GOOGLE_API_KEY)
+//
+//            if(!ScSnsGoogle.isLogin()) {
+//                // show progressbar
+//                ScDisplayUtils.showProgressBar(this)
+//                ScSnsGoogle.login(this, Constants.REQUEST_CODE_GOOGLE_LOGIN)
+//            }
+//            else {
+//                Toast.makeText(this, "이미 로그인 되어 있습니다.", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//
+//        bt_custom_kakao_login.setOnClickListener {
+//            ScDisplayUtils.showProgressBar(this)
+//
+//            KakaoManager().initKakao()
+//
+//            // 이게 로그인 되었는지 체크를 함
+//            val session = Session.getCurrentSession()
+//            callback = SessionCallback()
+//            session.addCallback(callback)
+//            session.open(AuthType.KAKAO_TALK, this)
+//        }
     }
 
     override fun onDestroy() {
