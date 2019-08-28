@@ -110,6 +110,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:19.0.0'           // auth
     implementation 'com.google.android.gms:play-services-auth:17.0.0'   // google login
     implementation 'com.google.firebase:firebase-firestore:21.0.0'      // cloud firestore
+    implementation 'com.google.firebase:firebase-messaging:20.0.0'      // fcm
 
     // stevechulsdev Library
 //    implementation 'com.github.stevechulsdev:ScSns:1.0.5'           // ScSns

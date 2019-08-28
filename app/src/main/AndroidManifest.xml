@@ -42,6 +42,19 @@
         <!-- Main -->
         <activity android:name=".main.view.MainActivity" />
 
+        <!-- FCM Service -->
+        <service
+            android:name=".firebase.FCMService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value=""/>
+
     </application>
 
 </manifest>
