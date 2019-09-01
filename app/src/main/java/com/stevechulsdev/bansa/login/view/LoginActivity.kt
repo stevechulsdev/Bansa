@@ -9,27 +9,18 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import com.google.firebase.auth.FirebaseUser
 import com.kakao.auth.AuthType
-import com.kakao.auth.ISessionCallback
-import com.kakao.auth.KakaoSDK
-import com.kakao.auth.Session
-import com.kakao.network.ErrorResult
-import com.kakao.usermgmt.UserManagement
-import com.kakao.usermgmt.callback.MeV2ResponseCallback
-import com.kakao.usermgmt.response.MeV2Response
 import com.kakao.util.exception.KakaoException
 import com.stevechulsdev.bansa.BR
 import com.stevechulsdev.bansa.R
 import com.stevechulsdev.bansa.etc.Constants
 import com.stevechulsdev.bansa.etc.LocalPreference
 import com.stevechulsdev.bansa.etc.Utils
-import com.stevechulsdev.bansa.firebase.DBManager
 import com.stevechulsdev.bansa.firebase.ScSnsGoogle
 import com.stevechulsdev.bansa.kakao.KakaoManager
 import com.stevechulsdev.bansa.login.viewmodel.LoginViewModel
 import com.stevechulsdev.bansa.main.view.MainActivity
 import com.stevechulsdev.scdisplayutils.ScDisplayUtils
 import com.stevechulsdev.sclog.ScLog
-import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.startActivity
 
 class LoginActivity : AppCompatActivity() {
@@ -39,10 +30,15 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Binding viewModel
         var mViewDataBinding = DataBindingUtil.setContentView<ViewDataBinding>(this, R.layout.activity_login)
         mViewDataBinding.setVariable(BR.vm, loginViewModel)
 
+        // Set Observer
         loginViewModel.apply {
+
+            // "구글 로그인" 클릭
             liveDataOnClickGoogleLogin.observe(mContext, Observer {
                 ScSnsGoogle.initLogin(mContext, Constants.GOOGLE_API_KEY)
 
@@ -56,12 +52,27 @@ class LoginActivity : AppCompatActivity() {
                 }
             })
 
+            // "카카오 로그인" 클릭
             liveDataOnClickKakaoLogin.observe(mContext, Observer {
                 ScDisplayUtils.showProgressBar(mContext)
 
-                it.open(AuthType.KAKAO_TALK, mContext)
+                KakaoManager.setCallback(object : KakaoManager.KakaoSessionListener {
+                    override fun onSessionOpened() {
+                        loginViewModel.kakaoLogin()
+                    }
+
+                    override fun onSessionOpenFailed(exception: KakaoException?) {
+                        exception?.let {
+                            ScLog.e(true, "SessionCallback onSessionOpenFailed error : $exception")
+                        }
+                        ScDisplayUtils.hideProgressBar()
+                    }
+                }).apply {
+                    open(AuthType.KAKAO_TALK, mContext)
+                }
             })
 
+            // "둘러보기" 클릭
             liveDataOnClickGoBack.observe(mContext, Observer {
                 finish()
                 overridePendingTransition(0,0)
@@ -73,6 +84,7 @@ class LoginActivity : AppCompatActivity() {
                 overridePendingTransition(0,0)
             })
 
+            // 구글 로그인 후, 로그인된 사용자 정보 가져와서 Firebase DB 저장
             liveDataGetGoogleUser.observe(mContext, Observer {
                 ScSnsGoogle.getUser(mContext, it, object : ScSnsGoogle.GetUserInterface {
                     override fun success(user: FirebaseUser) {
@@ -90,13 +102,17 @@ class LoginActivity : AppCompatActivity() {
                 })
             })
 
-            liveDataSetLocalData.observe(mContext, Observer {
-                Toast.makeText(this@LoginActivity, "이미 가입된 회원입니다.", Toast.LENGTH_SHORT).show()
+            // SharePreference에 id, nickName, loginType 저장 -> UI 업데이트
+            liveDataSetLocalData.observe(mContext, Observer { isNewMember ->
 
                 Utils.setLocalUserDataUid(this@LoginActivity, LocalPreference.userUid)
                 Utils.setLocalUserDataNickName(this@LoginActivity, LocalPreference.userNickName)
                 Utils.setLocalUserDataLoginType(this@LoginActivity, LocalPreference.loginType)
 
+                if(isNewMember) Toast.makeText(this@LoginActivity, "가입을 환영합니다.", Toast.LENGTH_SHORT).show()
+                else Toast.makeText(this@LoginActivity, "이미 가입된 회원입니다.", Toast.LENGTH_SHORT).show()
+
+                // LoginActivity 닫히면서, MainActivity Call onActivityResult()
                 setResult(Constants.RESULT_CODE_BACK_LOGIN)
                 finish()
                 overridePendingTransition(0,0)
@@ -105,6 +121,11 @@ class LoginActivity : AppCompatActivity() {
                 ScDisplayUtils.hideProgressBar()
             })
 
+            liveDataGetUserDataSuccess.observe(mContext, Observer { result ->
+                setUserData(result.id.toString(), Constants.LoginType.KAKAO)
+            })
+
+            // Call LoginViewModel onCreate
             onCreate()
         }
     }

@@ -1,9 +1,12 @@
 package com.stevechulsdev.bansa.kakao
 
 import com.kakao.auth.*
+import com.kakao.util.exception.KakaoException
 import com.stevechulsdev.bansa.App
 
-class KakaoManager {
+object KakaoManager {
+
+    private var callback: ISessionCallback? = null
 
     fun initKakao() {
         try {
@@ -13,6 +16,34 @@ class KakaoManager {
         catch (e: KakaoSDK.AlreadyInitializedException) {
             return
         }
+    }
+
+    fun setCallback(kakaoSessionListener: KakaoSessionListener): Session {
+        // 이게 로그인 되었는지 체크를 함
+        val session = Session.getCurrentSession()
+
+        callback = object : ISessionCallback {
+            override fun onSessionOpened() {
+                kakaoSessionListener.onSessionOpened()
+            }
+
+            override fun onSessionOpenFailed(exception: KakaoException?) {
+                kakaoSessionListener.onSessionOpenFailed(exception)
+            }
+        }
+
+        session.addCallback(callback)
+//        session.checkAndImplicitOpen()
+
+        return session
+    }
+
+    fun removeCallback() {
+        callback?.let {
+            Session.getCurrentSession().removeCallback(callback)
+        }
+
+        callback = null
     }
 
     // kakao login
@@ -44,5 +75,10 @@ class KakaoManager {
         override fun getApplicationConfig(): IApplicationConfig {
             return IApplicationConfig { App.globalContext() }
         }
+    }
+
+    interface KakaoSessionListener {
+        fun onSessionOpened()
+        fun onSessionOpenFailed(exception: KakaoException?)
     }
 }

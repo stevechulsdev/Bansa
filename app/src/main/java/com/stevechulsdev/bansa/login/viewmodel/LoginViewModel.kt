@@ -4,13 +4,11 @@ import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.kakao.auth.ISessionCallback
 import com.kakao.auth.Session
 import com.kakao.network.ErrorResult
 import com.kakao.usermgmt.UserManagement
 import com.kakao.usermgmt.callback.MeV2ResponseCallback
 import com.kakao.usermgmt.response.MeV2Response
-import com.kakao.util.exception.KakaoException
 import com.stevechulsdev.bansa.etc.Constants
 import com.stevechulsdev.bansa.etc.LocalPreference
 import com.stevechulsdev.bansa.firebase.DBManager
@@ -20,14 +18,12 @@ import com.stevechulsdev.sclog.ScLog
 
 class LoginViewModel: ViewModel() {
 
-    private var callback: SessionCallback? = null
-
     private val callOnClickGoogleLogin = MutableLiveData<Void>()
     val liveDataOnClickGoogleLogin: LiveData<Void>
         get() = callOnClickGoogleLogin
 
-    private val callOnClickKakaoLogin = MutableLiveData<Session>()
-    val liveDataOnClickKakaoLogin: LiveData<Session>
+    private val callOnClickKakaoLogin = MutableLiveData<Void>()
+    val liveDataOnClickKakaoLogin: LiveData<Void>
         get() = callOnClickKakaoLogin
 
     private val callOnClickGoBack = MutableLiveData<Void>()
@@ -42,21 +38,27 @@ class LoginViewModel: ViewModel() {
     val liveDataGetGoogleUser: LiveData<Intent>
         get() = callGetGoogleUser
 
-    private val callSetLocalData = MutableLiveData<Void>()
-    val liveDataSetLocalData: LiveData<Void>
+    private val callSetLocalData = MutableLiveData<Boolean>()
+    val liveDataSetLocalData: LiveData<Boolean>
         get() = callSetLocalData
 
+    private val callGetUserDataSuccess = MutableLiveData<MeV2Response>()
+    val liveDataGetUserDataSuccess: LiveData<MeV2Response>
+        get() = callGetUserDataSuccess
+
     fun onCreate() {
-        KakaoManager().initKakao()
+        KakaoManager.initKakao()
     }
 
     fun onDestroy() {
-        callback?.let {
-            Session.getCurrentSession().removeCallback(callback)
-        }
+        KakaoManager.removeCallback()
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        // Kakao Login Process 진행 중,
+//        if(LocalPreference.loginType == Constants.LoginType.KAKAO.name) {
+//            Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)
+//        }
         if(Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) return
 
         when(requestCode) {
@@ -73,12 +75,8 @@ class LoginViewModel: ViewModel() {
     }
 
     fun onClickKakaoLogin() {
-        // 이게 로그인 되었는지 체크를 함
-        val session = Session.getCurrentSession()
-        callback = SessionCallback()
-        session.addCallback(callback)
-
-        callOnClickKakaoLogin.postValue(session)
+        callOnClickKakaoLogin.postValue(null)
+//        callOnClickKakaoLogin.postValue(KakaoManager.setCallback())
     }
 
     fun onClickGoBack() {
@@ -93,7 +91,7 @@ class LoginViewModel: ViewModel() {
                     LocalPreference.userNickName = nickname
                     LocalPreference.loginType = loginType.name
 
-                    callSetLocalData.postValue(null)
+                    callSetLocalData.postValue(false)
                 }
                 else {
                     // timestamp is nickname
@@ -105,7 +103,7 @@ class LoginViewModel: ViewModel() {
                             LocalPreference.userNickName = nickname
                             LocalPreference.loginType = loginType.name
 
-                            callSetLocalData.postValue(null)
+                            callSetLocalData.postValue(true)
                         }
 
                         override fun onFail(e: Exception) {
@@ -121,46 +119,28 @@ class LoginViewModel: ViewModel() {
         })
     }
 
-    inner class SessionCallback: ISessionCallback {
-        override fun onSessionOpened() {
-            // todo -> 로그인 성공 시, 두 번 호출되는 문제가 있음
-            UserManagement.getInstance().me(object : MeV2ResponseCallback() {
-                override fun onSuccess(result: MeV2Response?) {
-                    result?.let {
-                        ScLog.e(true, "id : ${result.id}")
-                        ScLog.e(true, "kakaoAccount : ${result.kakaoAccount}")
-                        ScLog.e(true, "groupUserToken : ${result.groupUserToken}")
-                        ScLog.e(true, "nickname : ${result.nickname}")
-                        ScLog.e(true, "id : ${result.profileImagePath}")
-
-                        setUserData(result.id.toString(), Constants.LoginType.KAKAO)
-                    }
+    fun kakaoLogin() {
+        // Kakao Login
+        UserManagement.getInstance().me(object : MeV2ResponseCallback() {
+            override fun onSuccess(result: MeV2Response?) {
+                result?.let {
+                    callGetUserDataSuccess.postValue(result)
                 }
-
-                override fun onSessionClosed(errorResult: ErrorResult?) {
-                    errorResult?.let {
-                        ScLog.e(true, "UserManagement.getInstance().me onSessionClosed error : $errorResult")
-                    }
-
-                    callMoveMainActivity.postValue(null)
-                }
-
-                override fun onFailure(errorResult: ErrorResult?) {
-                    errorResult?.let {
-                        ScLog.e(true, "UserManagement.getInstance().me error : $errorResult")
-                    }
-
-                    ScDisplayUtils.hideProgressBar()
-                }
-            })
-        }
-
-        override fun onSessionOpenFailed(exception: KakaoException?) {
-            exception?.let {
-                ScLog.e(true, "SessionCallback onSessionOpenFailed error : $exception")
             }
 
-            ScDisplayUtils.hideProgressBar()
-        }
+            override fun onSessionClosed(errorResult: ErrorResult?) {
+                errorResult?.let {
+                    ScLog.e(true, "UserManagement.getInstance().me onSessionClosed error : $errorResult")
+                }
+                ScDisplayUtils.hideProgressBar()
+            }
+
+            override fun onFailure(errorResult: ErrorResult?) {
+                errorResult?.let {
+                    ScLog.e(true, "UserManagement.getInstance().me error : $errorResult")
+                }
+                ScDisplayUtils.hideProgressBar()
+            }
+        })
     }
 }
