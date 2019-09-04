@@ -14,11 +14,19 @@ class MainViewModel: ViewModel() {
     val liveDataOnClickLogout: LiveData<Void>
         get() = callOnClickLogout
 
+    private val callOnClickMain = MutableLiveData<Void>()
+    val liveDataOnClickMain: LiveData<Void>
+        get() = callOnClickMain
+
     fun onClickLogin() {
         callOnClickLogin.postValue(null)
     }
 
     fun onClickLogout() {
         callOnClickLogout.postValue(null)
+    }
+
+    fun onClickMain() {
+        callOnClickMain.postValue(null)
     }
 }

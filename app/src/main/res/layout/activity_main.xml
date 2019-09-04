@@ -33,6 +33,15 @@
             app:layout_constraintLeft_toRightOf="@+id/bt_login"
             android:onClick="@{() -> vm.onClickLogout()}"/>
 
+        <Button
+            android:id="@+id/bt_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/bt_logout"
+            android:text="Main"
+            android:onClick="@{() -> vm.onClickMain()}"/>
+
         <TextView
             android:id="@+id/tv_info"
             android:layout_width="wrap_content"

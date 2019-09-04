@@ -14,6 +14,7 @@ import com.stevechulsdev.bansa.R
 import com.stevechulsdev.bansa.etc.Constants
 import com.stevechulsdev.bansa.etc.LocalPreference
 import com.stevechulsdev.bansa.etc.Utils
+import com.stevechulsdev.bansa.firebase.DBManager
 import com.stevechulsdev.bansa.firebase.ScSnsGoogle
 import com.stevechulsdev.bansa.kakao.KakaoManager
 import com.stevechulsdev.bansa.login.view.LoginActivity
@@ -94,6 +95,10 @@ class MainActivity : AppCompatActivity() {
                     ScDisplayUtils.toast(mContext, "로그인을 해주세요.")
                 }
             })
+
+            liveDataOnClickMain.observe(mContext, Observer {
+                DBManager().getPostingData(this@MainActivity)
+            })
         }
     }
 
@@ -108,7 +113,6 @@ class MainActivity : AppCompatActivity() {
                         tv_info.text = "uid : ${LocalPreference.userUid}\nnickname : ${LocalPreference.userNickName}\nloginType : ${LocalPreference.loginType}"
 
                         if(LocalPreference.loginType == Constants.LoginType.KAKAO.name) {
-//                            KakaoManager.callGetUserDataSuccess = null
                             KakaoManager.removeCallback()
                         }
                     }

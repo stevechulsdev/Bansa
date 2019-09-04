@@ -40,8 +40,8 @@ android {
             testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
             archivesBaseName = "Bansa_" + versionCode + "_" + versionName + "_" + new Date().format("yyyyMMddhhmmss")
 
-            buildConfigField "String", "GOOGLE_API_KEY", "\""+getGoogleApiKey()+"\""
-            buildConfigField "String", "KAKAO_API_KEY", "\""+getKakaoApiKey()+"\""
+            buildConfigField "String", "GOOGLE_API_KEY", "\"" + getGoogleApiKey() + "\""
+            buildConfigField "String", "KAKAO_API_KEY", "\"" + getKakaoApiKey() + "\""
         }
     } else {
         throw new GradleException("Could not read version.properties")
@@ -129,6 +129,12 @@ dependencies {
 
     // kakao login
     implementation group: 'com.kakao.sdk', name: 'usermgmt', version: '1.21.1'
+
+    // recyclerview
+    implementation "androidx.recyclerview:recyclerview:1.0.0"
+
+    // gson
+    implementation 'com.google.code.gson:gson:2.8.5'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -1,7 +1,12 @@
 package com.stevechulsdev.bansa.firebase
 
+import android.content.Context
 import com.google.firebase.firestore.FirebaseFirestore
+import com.stevechulsdev.bansa.etc.Constants
+import com.stevechulsdev.bansa.main.model.Posting
+import com.stevechulsdev.bansa.main.view.MainListActivity
 import com.stevechulsdev.sclog.ScLog
+import org.jetbrains.anko.startActivity
 
 class DBManager {
     var db: FirebaseFirestore = FirebaseFirestore.getInstance()
@@ -52,6 +57,33 @@ class DBManager {
             }
             .addOnFailureListener { exception ->
                 ScLog.e(true, "Error getting documents : $exception")
+            }
+    }
+
+    fun getPostingData(context: Context) {
+        db.collection("Posting")
+            .get()
+            .addOnSuccessListener {
+                for (postingData in it.documents) {
+
+                    Posting?.apply {
+                        imagePath = postingData.get("imagePath").toString()
+                        description = postingData.get("description").toString()
+                        link = postingData.get("link").toString()
+                        tagList.addAll((postingData.get("tag") as List<String>))
+
+                        ScLog.e(Constants.IS_DEBUG, "imagePath : $imagePath")
+                        ScLog.e(Constants.IS_DEBUG, "description : $description")
+                        ScLog.e(Constants.IS_DEBUG, "link : $link")
+                        ScLog.e(Constants.IS_DEBUG, "tagList : ${tagList[0]}")
+                        ScLog.e(Constants.IS_DEBUG, "tagList : ${tagList[1]}")
+
+                        context.startActivity<MainListActivity>()
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                ScLog.e(Constants.IS_DEBUG, "getPostingData error : $exception")
             }
     }
 
