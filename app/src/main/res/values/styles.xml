@@ -3,8 +3,8 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">#f447a8</item>
+        <item name="colorPrimaryDark">#f447a8</item>
         <item name="colorAccent">@color/colorAccent</item>
         <!-- 앱 첫 시작시 흰 화면 또는 검정 화면 안보여주는 설정 -->
         <item name="android:windowDisablePreview">true</item>

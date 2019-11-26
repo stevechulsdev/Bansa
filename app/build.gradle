@@ -40,8 +40,11 @@ android {
             testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
             archivesBaseName = "Bansa_" + versionCode + "_" + versionName + "_" + new Date().format("yyyyMMddhhmmss")
 
-            buildConfigField "String", "GOOGLE_API_KEY", "\""+getGoogleApiKey()+"\""
-            buildConfigField "String", "KAKAO_API_KEY", "\""+getKakaoApiKey()+"\""
+            buildConfigField "String", "GOOGLE_API_KEY", "\"" + getGoogleApiKey() + "\""
+            buildConfigField "String", "KAKAO_API_KEY", "\"" + getKakaoApiKey() + "\""
+
+            buildConfigField "String", "ADMOB_API_KEY", "\"" + getAdmobApiKey() + "\""
+            buildConfigField "String", "ADMOB_AD_ID", "\"" + getAdmobAdId() + "\""
         }
     } else {
         throw new GradleException("Could not read version.properties")
@@ -97,6 +100,18 @@ def getKakaoApiKey() {
     return properties.getProperty("KAKAO_API_KEY")
 }
 
+def getAdmobApiKey() {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    return properties.getProperty("ADMOB_API_KEY")
+}
+
+def getAdmobAdId() {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    return properties.getProperty("ADMOB_AD_ID")
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -129,6 +144,10 @@ dependencies {
 
     // kakao login
     implementation group: 'com.kakao.sdk', name: 'usermgmt', version: '1.21.1'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
+    // Google Admob
+    implementation 'com.google.android.gms:play-services-ads:18.3.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

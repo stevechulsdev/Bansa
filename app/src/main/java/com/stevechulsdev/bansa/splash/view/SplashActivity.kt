@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import com.stevechulsdev.bansa.R
 import com.stevechulsdev.bansa.etc.Constants
-import com.stevechulsdev.bansa.main.view.MainActivity
+import com.stevechulsdev.bansa.intro.view.IntroFirstActivity
 import org.jetbrains.anko.startActivity
 
 class SplashActivity : AppCompatActivity() {
@@ -15,7 +15,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         Handler().postDelayed({
-            startActivity<MainActivity>()
+            startActivity<IntroFirstActivity>()
             finish()
         }, Constants.SPLASH_TIME)
     }

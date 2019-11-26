@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.stevechulsdev.bansa">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".App"
@@ -12,49 +12,54 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-1688867616797097~7266347781" />
+
+        <activity android:name=".main.view.ItemDetailActivity"></activity>
+        <activity android:name=".main.view.Main2Activity" />
+        <activity android:name=".intro.view.IntroHashTagActivity" />
+        <activity android:name=".intro.view.IntroSecondActivity" />
+        <activity android:name=".intro.view.IntroFirstActivity" />
         <activity android:name=".splash.view.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- Kakao -->
-        <meta-data android:name="com.kakao.sdk.AppKey" android:value="dbaeb61adc86ec5a135e403a23a2b60e"/>
-        <meta-data android:name="com.kakao.sdk.ClientSecret" android:value="5QAr7FU1AwhtPA7KdEIdBvNjHNFbQ3I5"/> <!-- kakao secret key -->
-
-        <activity android:name="com.kakao.auth.authorization.authcode.KakaoWebViewActivity"
+        </activity> <!-- Kakao -->
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="dbaeb61adc86ec5a135e403a23a2b60e" />
+        <meta-data
+            android:name="com.kakao.sdk.ClientSecret"
+            android:value="5QAr7FU1AwhtPA7KdEIdBvNjHNFbQ3I5" /> <!-- kakao secret key -->
+        <activity
+            android:name="com.kakao.auth.authorization.authcode.KakaoWebViewActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustResize">
-
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-        </activity>
+                <action android:name="android.intent.action.MAIN" />
 
-        <!-- Login -->
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity> <!-- Login -->
         <activity
             android:name=".login.view.LoginActivity"
-            android:theme="@style/TransparentActivity"/>
-
-        <!-- Main -->
-        <activity android:name=".main.view.MainActivity" />
-
-        <!-- FCM Service -->
+            android:theme="@style/TransparentActivity" /> <!-- Main -->
+        <activity android:name=".main.view.MainActivity" /> <!-- FCM Service -->
         <service
             android:name=".firebase.FCMService"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.google.firebase.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value=""/>
-
+            android:value="" />
     </application>
 
 </manifest>
