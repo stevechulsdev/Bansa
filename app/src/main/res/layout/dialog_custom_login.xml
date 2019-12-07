@@ -68,12 +68,14 @@
                 android:gravity="center">
 
                 <ImageView
+                    android:id="@+id/btn_google"
                     android:layout_width="235dp"
                     android:layout_height="64dp"
                     android:src="@drawable/login_google"
                     android:background="@null"/>
 
                 <ImageView
+                    android:id="@+id/btn_kakao"
                     android:layout_width="235dp"
                     android:layout_height="64dp"
                     android:layout_marginTop="10dp"

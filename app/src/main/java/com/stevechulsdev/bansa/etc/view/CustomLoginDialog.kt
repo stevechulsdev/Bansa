@@ -5,8 +5,9 @@ import android.content.Context
 import android.os.Bundle
 import android.view.WindowManager
 import com.stevechulsdev.bansa.R
+import kotlinx.android.synthetic.main.dialog_custom_login.*
 
-class CustomLoginDialog(val mContext: Context): Dialog(mContext) {
+class CustomLoginDialog(val mContext: Context, val customLoginDialogListener: (String) -> Unit): Dialog(mContext) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +21,14 @@ class CustomLoginDialog(val mContext: Context): Dialog(mContext) {
 
         setContentView(R.layout.dialog_custom_login)
 
+        btn_google.setOnClickListener {
+            customLoginDialogListener.invoke("google")
+            dismiss()
+        }
 
+        btn_kakao.setOnClickListener {
+            customLoginDialogListener.invoke("kakao")
+            dismiss()
+        }
     }
 }

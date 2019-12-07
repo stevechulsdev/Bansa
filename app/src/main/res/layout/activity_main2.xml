@@ -67,6 +67,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/ll_home_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -74,11 +75,13 @@
                 android:gravity="center">
 
                 <ImageView
+                    android:id="@+id/iv_home"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/menu_bottom_home_on"/>
 
                 <TextView
+                    android:id="@+id/tv_home"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
@@ -90,6 +93,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_search_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -97,11 +101,13 @@
                 android:gravity="center">
 
                 <ImageView
+                    android:id="@+id/iv_search"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/menu_bottom_search_off"/>
 
                 <TextView
+                    android:id="@+id/tv_search"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
@@ -113,6 +119,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_jewelry_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -120,11 +127,13 @@
                 android:gravity="center">
 
                 <ImageView
+                    android:id="@+id/iv_bookMark"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/menu_bottom_jewelry_off"/>
 
                 <TextView
+                    android:id="@+id/tv_bookMark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"

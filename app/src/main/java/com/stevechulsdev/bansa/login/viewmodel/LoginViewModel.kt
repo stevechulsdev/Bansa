@@ -90,6 +90,7 @@ class LoginViewModel: ViewModel() {
                     LocalPreference.userUid = uid
                     LocalPreference.userNickName = nickname
                     LocalPreference.loginType = loginType.name
+                    LocalPreference.isLogin = true
 
                     callSetLocalData.postValue(false)
                 }
@@ -102,6 +103,7 @@ class LoginViewModel: ViewModel() {
                             LocalPreference.userUid = uid
                             LocalPreference.userNickName = nickname
                             LocalPreference.loginType = loginType.name
+                            LocalPreference.isLogin = true
 
                             callSetLocalData.postValue(true)
                         }

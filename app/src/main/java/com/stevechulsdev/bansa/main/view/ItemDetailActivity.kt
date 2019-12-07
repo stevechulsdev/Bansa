@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
@@ -20,10 +22,14 @@ import com.kakao.network.callback.ResponseCallback
 import com.stevechulsdev.bansa.R
 import com.stevechulsdev.bansa.etc.AnimationUtils
 import com.stevechulsdev.bansa.etc.Constants
+import com.stevechulsdev.bansa.etc.LocalPreference
 import com.stevechulsdev.bansa.etc.Utils
+import com.stevechulsdev.bansa.firebase.DBManager
+import com.stevechulsdev.bansa.kakao.KakaoManager
 import com.stevechulsdev.scdisplayutils.ScDisplayUtils
 import com.stevechulsdev.sclog.ScLog
 import kotlinx.android.synthetic.main.activity_item_detail.*
+import kotlinx.android.synthetic.main.cell_main.view.*
 import java.net.URL
 import java.text.NumberFormat
 import java.util.*
@@ -48,17 +54,24 @@ class ItemDetailActivity : AppCompatActivity() {
     private val mUrl: String
         get() = intent.getStringExtra("url")?: ""
 
+    private val mPostingId: String
+        get() = intent.getStringExtra("postingId")?: ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Utils.setStatusColor(this, "#ffffff")
         setContentView(R.layout.activity_item_detail)
 
         Thread(Runnable {
-            val url = URL(mImagePath)
-            val mBitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
+//            val url = URL(mImagePath)
+//            val mBitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
 
             Handler(Looper.getMainLooper()).post {
-                iv_img.setImageBitmap(mBitmap)
+
+                Glide.with(iv_img)
+                    .load(mImagePath)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(iv_img)
 
                 btn_link.setOnClickListener {
                     ScDisplayUtils.showProgressBar(this, false, Color.parseColor("#f447a8"))
@@ -125,6 +138,10 @@ class ItemDetailActivity : AppCompatActivity() {
                     ScLog.e(Constants.IS_DEBUG, errorResult.errorMessage)
                 }
             })
+        }
+
+        ll_bookMark.setOnClickListener {
+            DBManager().setBookMark(LocalPreference.userUid, mPostingId)
         }
     }
 
