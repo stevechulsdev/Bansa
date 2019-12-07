@@ -15,12 +15,12 @@ class ItemDecoration(context: Context): RecyclerView.ItemDecoration() {
         spanCount = 2
         spacing = (TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
-            12f,
+            6f,
             context.resources.displayMetrics
         )).toInt()
         outerMargin = (TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
-            50f,
+            25f,
             context.resources.displayMetrics
         )).toInt()
     }

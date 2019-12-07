@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.stevechulsdev.bansa.R
 import com.stevechulsdev.bansa.etc.Utils
+import com.stevechulsdev.bansa.etc.view.CustomLoginDialog
 import com.stevechulsdev.scdisplayutils.ScDisplayUtils
 import kotlinx.android.synthetic.main.activity_intro_hash_tag.*
 
@@ -18,6 +19,8 @@ class Main2Activity : AppCompatActivity() {
         setContentView(R.layout.activity_main2)
 
         supportFragmentManager.beginTransaction().replace(R.id.fl_content_layout, MainFragment.newInstance()).commit()
+
+        CustomLoginDialog(this).show()
     }
 
     // Back Key 누를 경우

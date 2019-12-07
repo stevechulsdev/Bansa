@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="328dp"
+        android:layout_height="301dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_top"
+            android:layout_width="match_parent"
+            android:layout_height="132dp"
+            android:background="@drawable/gradient_login"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="27dp"
+                android:textSize="24sp"
+                android:textColor="#ffffff"
+                android:letterSpacing="-0.08"
+                android:lineSpacingExtra="8sp"
+                android:gravity="center_horizontal"
+                android:text="3초면 가입 끝!"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="4dp"
+                android:textSize="14sp"
+                android:textColor="#f2e7ec"
+                android:letterSpacing="-0.08"
+                android:lineSpacingExtra="8sp"
+                android:gravity="center_horizontal"
+                android:text="간편 SNS 가입 하고\n반사와 함께 나만의 반지를 찾아요!" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/cl_top"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="235dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/login_google"
+                    android:background="@null"/>
+
+                <ImageView
+                    android:layout_width="235dp"
+                    android:layout_height="64dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/login_kakao"
+                    android:background="@null"/>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

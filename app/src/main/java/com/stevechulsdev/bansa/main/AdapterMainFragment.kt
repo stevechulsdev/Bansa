@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.DocumentSnapshot
 import com.stevechulsdev.bansa.R
 import com.stevechulsdev.bansa.etc.AnimationUtils
+import com.stevechulsdev.bansa.etc.Constants
 import com.stevechulsdev.bansa.main.view.ItemDetailActivity
+import com.stevechulsdev.sclog.ScLog
 import kotlinx.android.synthetic.main.cell_main.view.*
 import java.net.URL
 
@@ -35,7 +37,9 @@ class AdapterMainFragment(val mActivity: FragmentActivity, val context: Context,
 
         fun bind(position: Int, arrayList: ArrayList<DocumentSnapshot>, context: Context) {
             Thread(Runnable {
-                val url = URL(arrayList[position].get("imagePath").toString())
+                val imagePath = arrayList[position].get("imagePath").toString()
+                ScLog.e(Constants.IS_DEBUG, "imagePath: $imagePath")
+                val url = URL(imagePath)
                 val mBitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
 
                 Handler(Looper.getMainLooper()).post {
@@ -44,7 +48,7 @@ class AdapterMainFragment(val mActivity: FragmentActivity, val context: Context,
                     itemView.cl_main_layout.setOnClickListener {
                         val intent = Intent(context, ItemDetailActivity::class.java)
                         intent.putExtra("imagePath", arrayList[position].getString("imagePath"))
-                        intent.putExtra("brand", "Tiffany")
+                        intent.putExtra("brand", "Tiffany & Co")
                         intent.putExtra("modelName", arrayList[position].getString("name"))
                         intent.putExtra("price", arrayList[position].getString("price"))
                         intent.putExtra("description", arrayList[position].getString("description"))
