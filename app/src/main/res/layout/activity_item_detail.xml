@@ -103,6 +103,7 @@
                 android:weightSum="4">
 
                 <LinearLayout
+                    android:id="@+id/ll_like_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -110,6 +111,7 @@
                     android:gravity="center">
 
                     <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_heart"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/btn_heart_big_off"
@@ -202,9 +204,11 @@
                     android:gravity="center">
 
                     <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_bookMark"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/btn_bookmark"
+                        android:src="@drawable/btn_bookmark_small_on"
+                        android:background="@null"
                         android:layout_marginBottom="1dp"
                         android:layout_marginRight="4dp"/>
 

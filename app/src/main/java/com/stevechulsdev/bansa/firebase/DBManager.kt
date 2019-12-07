@@ -76,12 +76,24 @@ class DBManager {
             }
     }
 
-    fun setBookMark(uid: String, postingId: String) {
+    fun insertBookMark(postingId: String, insertBookMarkListener: () -> Unit) {
         db.collection("UserData")
-            .document(uid)
+            .document(LocalPreference.userUid)
             .update("bookMarkList", FieldValue.arrayUnion(postingId))
             .addOnSuccessListener {
-                ScLog.e(Constants.IS_DEBUG, "북마크 추가 완료")
+                insertBookMarkListener.invoke()
+            }
+            .addOnFailureListener {
+                it.printStackTrace()
+            }
+    }
+
+    fun deleteBookMark(postingId: String, deleteBookMarkListener: () -> Unit) {
+        db.collection("UserData")
+            .document(LocalPreference.userUid)
+            .update("bookMarkList", FieldValue.arrayRemove(postingId))
+            .addOnSuccessListener {
+                deleteBookMarkListener.invoke()
             }
             .addOnFailureListener {
                 it.printStackTrace()
@@ -100,6 +112,94 @@ class DBManager {
                 }
 
                 bookMarkListener.invoke(bookMarkList)
+            }
+            .addOnFailureListener {
+                it.printStackTrace()
+            }
+    }
+
+    fun setBookMark(postingId: String, bookMarkListener: (Boolean) -> Unit) {
+        db.collection("PostingList")
+            .document(postingId)
+            .get()
+            .addOnSuccessListener {
+                for(uid in (it.data?.get("bookMarkList") as ArrayList<String>)) {
+                    if(uid == LocalPreference.userUid) {
+                        bookMarkListener.invoke(true)
+                        return@addOnSuccessListener
+                    }
+                }
+
+                bookMarkListener.invoke(false)
+            }
+            .addOnFailureListener {
+                it.printStackTrace()
+            }
+    }
+
+    fun onBookMark(postingId: String, bookMarkListener: () -> Unit) {
+        db.collection("PostingList")
+            .document(postingId)
+            .update("bookMarkList", FieldValue.arrayUnion(LocalPreference.userUid))
+            .addOnSuccessListener {
+                bookMarkListener.invoke()
+            }
+            .addOnFailureListener {
+                it.printStackTrace()
+            }
+    }
+
+    fun offBookMark(postingId: String, bookMarkListener: () -> Unit) {
+        db.collection("PostingList")
+            .document(postingId)
+            .update("bookMarkList", FieldValue.arrayRemove(LocalPreference.userUid))
+            .addOnSuccessListener {
+                bookMarkListener.invoke()
+            }
+            .addOnFailureListener {
+                it.printStackTrace()
+            }
+    }
+
+    fun setLike(postingId: String, likeListener: (Boolean) -> Unit) {
+        db.collection("PostingList")
+            .document(postingId)
+            .get()
+            .addOnSuccessListener {
+                for(uid in (it.data?.get("heartList") as ArrayList<String>)) {
+                    if(uid == LocalPreference.userUid) {
+                        likeListener.invoke(true)
+//                        offLike(postingId)
+                        return@addOnSuccessListener
+                    }
+                }
+
+                likeListener.invoke(false)
+//                onLike(postingId)
+            }
+            .addOnFailureListener {
+                it.printStackTrace()
+            }
+    }
+
+    fun onLike(postingId: String, likeListener: () -> Unit) {
+        db.collection("PostingList")
+            .document(postingId)
+            .update("heartList", FieldValue.arrayUnion(LocalPreference.userUid))
+            .addOnSuccessListener {
+                likeListener.invoke()
+            }
+            .addOnFailureListener {
+                it.printStackTrace()
+            }
+    }
+
+    fun offLike(postingId: String, likeListener: () -> Unit) {
+        db.collection("PostingList")
+            .document(postingId)
+            .update("heartList", FieldValue.arrayRemove(LocalPreference.userUid))
+            .addOnSuccessListener {
+                likeListener.invoke()
             }
             .addOnFailureListener {
                 it.printStackTrace()

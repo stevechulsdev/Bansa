@@ -27,6 +27,8 @@ import java.net.URL
 
 class AdapterMainFragment(val mActivity: FragmentActivity, val context: Context, val arrayList: ArrayList<DocumentSnapshot>): RecyclerView.Adapter<AdapterMainFragment.ViewHolder>() {
 
+    var myHeartId = ""
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.cell_main, parent, false))
     }
@@ -36,25 +38,63 @@ class AdapterMainFragment(val mActivity: FragmentActivity, val context: Context,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(position, arrayList, context)
+        holder.bind(position, context)
     }
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
-        fun bind(position: Int, arrayList: ArrayList<DocumentSnapshot>, context: Context) {
+        fun bind(position: Int, context: Context) {
+
             Thread(Runnable {
                 val imagePath = arrayList[position].get("imagePath").toString()
-                ScLog.e(Constants.IS_DEBUG, "imagePath: $imagePath")
-//                val url = URL(imagePath)
-//                val mBitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
 
                 Handler(Looper.getMainLooper()).post {
 
+                    // like
+                    var myHeartId = ""
+                    Glide.with(itemView.iv_like_small)
+                        .load(R.drawable.btn_heart_small_off)
+                        .into(itemView.iv_like_small)
+
+                    val heartList = (arrayList[position].get("heartList") as ArrayList<String>)
+                    for(myId in heartList) {
+                        if(myId == LocalPreference.userUid) {
+                            myHeartId = myId
+                            Glide.with(itemView.iv_like_small)
+                                .load(R.drawable.btn_heart_small_on)
+                                .into(itemView.iv_like_small)
+                        }
+                    }
+
+                    val heartCount = heartList.size
+                    itemView.tv_like_count.text = "$heartCount"
+
+                    // bookmark
+                    var myBookMarkId = ""
+                    Glide.with(itemView.iv_bookmark_small)
+                        .load(R.drawable.btn_bookmark_small_off)
+                        .into(itemView.iv_bookmark_small)
+
+                    val bookmarkList = (arrayList[position].get("bookMarkList") as ArrayList<String>)
+                    for(myId in bookmarkList) {
+                        if(myId == LocalPreference.userUid) {
+                            myBookMarkId = myId
+                            Glide.with(itemView.iv_bookmark_small)
+                                .load(R.drawable.btn_bookmark_small_on)
+                                .into(itemView.iv_bookmark_small)
+                        }
+                    }
+
+                    val bookmarkCount = bookmarkList.size
+                    itemView.tv_bookmark_count.text = "$bookmarkCount"
+
+                    // main image
                     Glide.with(itemView.iv_img)
                         .load(imagePath)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into(itemView.iv_img)
 
+                    // click main
                     itemView.cl_main_layout.setOnClickListener {
                         if(LocalPreference.isLogin) {
                             val intent = Intent(context, ItemDetailActivity::class.java)
@@ -66,7 +106,17 @@ class AdapterMainFragment(val mActivity: FragmentActivity, val context: Context,
                             intent.putExtra("url", arrayList[position].getString("url"))
                             intent.putExtra("postingId", arrayList[position].getString("postingId"))
 
-                            context.startActivity(intent)
+                            if(myHeartId.isNotBlank()) {
+                                intent.putExtra("heartUserId", myHeartId)
+                            }
+                            intent.putExtra("heartCount", heartCount)
+
+                            if(myBookMarkId.isNotBlank()) {
+                                intent.putExtra("bookmarkId", myBookMarkId)
+                            }
+                            intent.putExtra("bookmarkCount", bookmarkCount)
+
+                            mActivity.startActivityForResult(intent, 5656)
                             AnimationUtils().animFadeInFadeOut(mActivity)
                         }
                         else {

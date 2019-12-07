@@ -4,31 +4,15 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
-import androidx.core.content.ContextCompat
-import com.google.firebase.auth.FirebaseUser
-import com.kakao.auth.AuthType
-import com.kakao.network.ErrorResult
-import com.kakao.usermgmt.UserManagement
-import com.kakao.usermgmt.callback.MeV2ResponseCallback
-import com.kakao.usermgmt.response.MeV2Response
-import com.kakao.util.exception.KakaoException
 import com.stevechulsdev.bansa.R
 import com.stevechulsdev.bansa.etc.Constants
 import com.stevechulsdev.bansa.etc.LocalPreference
 import com.stevechulsdev.bansa.etc.Utils
-import com.stevechulsdev.bansa.etc.view.CustomLoginDialog
-import com.stevechulsdev.bansa.firebase.DBManager
-import com.stevechulsdev.bansa.firebase.ScSnsGoogle
 import com.stevechulsdev.bansa.kakao.KakaoManager
 import com.stevechulsdev.bansa.login.view.LoginActivity
 import com.stevechulsdev.scdisplayutils.ScDisplayUtils
-import com.stevechulsdev.sclog.ScLog
-import kotlinx.android.synthetic.main.activity_intro_hash_tag.*
 import kotlinx.android.synthetic.main.activity_intro_hash_tag.cl_main_layout
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main2.*
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 
 class Main2Activity : AppCompatActivity() {
@@ -70,7 +54,7 @@ class Main2Activity : AppCompatActivity() {
 
             iv_search.setImageResource(R.drawable.menu_bottom_search_off)
             tv_search.setTextColor(Color.parseColor("#000000"))
-            supportFragmentManager.beginTransaction().replace(R.id.fl_content_layout, JewelryFragment.newInstance()).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.fl_content_layout, BookMarkFragment.newInstance()).commit()
         }
     }
 
@@ -99,6 +83,20 @@ class Main2Activity : AppCompatActivity() {
                             KakaoManager.removeCallback()
                         }
                     }
+                }
+            }
+            5656 -> {
+                if(resultCode == 6565) {
+                    iv_home.setImageResource(R.drawable.menu_bottom_home_on)
+                    tv_home.setTextColor(Color.parseColor("#ff6c88"))
+
+                    iv_search.setImageResource(R.drawable.menu_bottom_search_off)
+                    tv_search.setTextColor(Color.parseColor("#000000"))
+
+                    iv_bookMark.setImageResource(R.drawable.menu_bottom_jewelry_off)
+                    tv_bookMark.setTextColor(Color.parseColor("#000000"))
+
+                    supportFragmentManager.beginTransaction().replace(R.id.fl_content_layout, MainFragment.newInstance()).commitAllowingStateLoss()
                 }
             }
         }

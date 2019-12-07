@@ -57,15 +57,26 @@ class ItemDetailActivity : AppCompatActivity() {
     private val mPostingId: String
         get() = intent.getStringExtra("postingId")?: ""
 
+    private val mHeartUserId: String
+        get() = intent.getStringExtra("heartUserId")?: ""
+
+    private val mHeartCount: Int
+        get() = intent.getIntExtra("heartCount", 0)
+
+    private val mBookMarkId: String
+        get() = intent.getStringExtra("bookmarkId")?: ""
+
+    private val mBookMarkCount: Int
+        get() = intent.getIntExtra("bookmarkCount", 0)
+
+    private var isChange = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Utils.setStatusColor(this, "#ffffff")
         setContentView(R.layout.activity_item_detail)
 
         Thread(Runnable {
-//            val url = URL(mImagePath)
-//            val mBitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
-
             Handler(Looper.getMainLooper()).post {
 
                 Glide.with(iv_img)
@@ -105,6 +116,22 @@ class ItemDetailActivity : AppCompatActivity() {
         tv_model.text = mModelName
         tv_price.text = NumberFormat.getCurrencyInstance(Locale.KOREA).format(mPrice.toLong())
         tv_contents.text = mDescription
+        tv_like_count.text = "$mHeartCount"
+        tv_bookmark_count.text = "$mBookMarkCount"
+
+        if(mHeartUserId.isNotBlank()) {
+            iv_heart.setImageResource(R.drawable.btn_heart_big_on)
+        }
+        else {
+            iv_heart.setImageResource(R.drawable.btn_heart_big_off)
+        }
+
+        if(mBookMarkId.isNotBlank()) {
+            iv_bookMark.setImageResource(R.drawable.btn_bookmark_small_on)
+        }
+        else {
+            iv_bookMark.setImageResource(R.drawable.btn_bookmark_big_off)
+        }
 
         iv_back.setOnClickListener {
             onBackPressed()
@@ -141,11 +168,53 @@ class ItemDetailActivity : AppCompatActivity() {
         }
 
         ll_bookMark.setOnClickListener {
-            DBManager().setBookMark(LocalPreference.userUid, mPostingId)
+            DBManager().setBookMark(mPostingId) { isBookMark ->
+                isChange = true
+
+                if(isBookMark) {
+                    DBManager().deleteBookMark(mPostingId) {
+                        DBManager().offBookMark(mPostingId) {
+                            iv_bookMark.setImageResource(R.drawable.btn_bookmark_big_off)
+                            tv_bookmark_count.text = (tv_bookmark_count.text.toString().toInt() - 1).toString()
+                        }
+                    }
+                }
+                else {
+                    DBManager().insertBookMark(mPostingId) {
+                        DBManager().onBookMark(mPostingId) {
+                            iv_bookMark.setImageResource(R.drawable.btn_bookmark_small_on)
+                            tv_bookmark_count.text = (tv_bookmark_count.text.toString().toInt() + 1).toString()
+                        }
+                    }
+                }
+            }
         }
+
+        ll_like_layout.setOnClickListener {
+            DBManager().setLike(mPostingId) { isLike ->
+                isChange = true
+
+                if(isLike) {
+                    DBManager().offLike(mPostingId) {
+                        iv_heart.setImageResource(R.drawable.btn_heart_big_off)
+                        tv_like_count.text = (tv_like_count.text.toString().toInt() - 1).toString()
+                    }
+                }
+                else {
+                    DBManager().onLike(mPostingId) {
+                        iv_heart.setImageResource(R.drawable.btn_heart_big_on)
+                        tv_like_count.text = (tv_like_count.text.toString().toInt() + 1).toString()
+                    }
+                }
+            }
+        }
+
+
     }
 
     override fun onBackPressed() {
+        if(isChange) setResult(6565)
+
         super.onBackPressed()
         AnimationUtils().animOutLeftToRight(this)
     }
