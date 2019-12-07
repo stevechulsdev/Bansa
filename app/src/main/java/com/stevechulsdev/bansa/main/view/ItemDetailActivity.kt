@@ -85,6 +85,10 @@ class ItemDetailActivity : AppCompatActivity() {
         tv_model.text = mModelName
         tv_price.text = NumberFormat.getCurrencyInstance(Locale.KOREA).format(mPrice.toLong())
         tv_contents.text = mDescription
+
+        iv_back.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     override fun onBackPressed() {

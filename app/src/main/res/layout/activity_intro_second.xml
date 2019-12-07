@@ -42,7 +42,7 @@
         android:textColor="#666666"
         android:letterSpacing="-0.08"
         android:lineSpacingExtra="8sp"
-        android:text="필요한 바닞 정보를 해시태그 검색으로 바로 찾고\n원하는 반지는 간편하게 나의 보석함에 쏙!\n반사 앱으로 나마의 반지를 찾아보세요."
+        android:text="필요한 반지 정보를 해시태그 검색으로 바로 찾고\n원하는 반지는 간편하게 나의 보석함에 쏙!\n반사 앱으로 나마의 반지를 찾아보세요."
         android:layout_marginTop="16dp"/>
 
     <ImageButton
