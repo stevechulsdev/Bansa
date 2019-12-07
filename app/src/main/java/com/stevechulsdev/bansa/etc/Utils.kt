@@ -1,18 +1,25 @@
 package com.stevechulsdev.bansa.etc
 
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
+import android.view.WindowManager
 import androidx.core.app.NotificationCompat
 import com.stevechulsdev.bansa.R
 import com.stevechulsdev.bansa.main.view.MainActivity
 import java.lang.Exception
 
 object Utils {
+
+    fun setStatusColor(activity: Activity, colorValue: String) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val window = activity.window
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.statusBarColor = Color.parseColor(colorValue)
+        }
+    }
 
     private fun setLocalUserDataString(context: Context, key: String, value: String) {
         val preference = context.getSharedPreferences("UserData", Context.MODE_PRIVATE)

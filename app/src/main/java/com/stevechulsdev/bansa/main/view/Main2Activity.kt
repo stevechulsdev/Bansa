@@ -3,6 +3,7 @@ package com.stevechulsdev.bansa.main.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.stevechulsdev.bansa.R
+import com.stevechulsdev.bansa.etc.Utils
 import com.stevechulsdev.scdisplayutils.ScDisplayUtils
 import kotlinx.android.synthetic.main.activity_intro_hash_tag.*
 
@@ -13,6 +14,7 @@ class Main2Activity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Utils.setStatusColor(this, "#ffffff")
         setContentView(R.layout.activity_main2)
 
         supportFragmentManager.beginTransaction().replace(R.id.fl_content_layout, MainFragment.newInstance()).commit()

@@ -14,6 +14,7 @@ import com.google.android.gms.ads.InterstitialAd
 import com.stevechulsdev.bansa.R
 import com.stevechulsdev.bansa.etc.AnimationUtils
 import com.stevechulsdev.bansa.etc.Constants
+import com.stevechulsdev.bansa.etc.Utils
 import com.stevechulsdev.scdisplayutils.ScDisplayUtils
 import kotlinx.android.synthetic.main.activity_item_detail.*
 import java.net.URL
@@ -42,6 +43,7 @@ class ItemDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Utils.setStatusColor(this, "#ffffff")
         setContentView(R.layout.activity_item_detail)
 
         Thread(Runnable {
