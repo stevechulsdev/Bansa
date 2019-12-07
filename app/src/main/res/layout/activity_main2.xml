@@ -76,7 +76,7 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/menu_bottom_home"/>
+                    android:src="@drawable/menu_bottom_home_on"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -99,7 +99,7 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/menu_bottom_search"/>
+                    android:src="@drawable/menu_bottom_search_off"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -122,7 +122,7 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/menu_bottom_jewelry"/>
+                    android:src="@drawable/menu_bottom_jewelry_off"/>
 
                 <TextView
                     android:layout_width="wrap_content"

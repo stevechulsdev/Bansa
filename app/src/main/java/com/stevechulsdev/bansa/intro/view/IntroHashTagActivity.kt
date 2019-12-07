@@ -30,4 +30,9 @@ class IntroHashTagActivity : AppCompatActivity() {
             AnimationUtils().animFadeInFadeOut(this)
         }
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        AnimationUtils().animOutLeftToRight(this)
+    }
 }

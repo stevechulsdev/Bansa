@@ -18,4 +18,9 @@ class IntroSecondActivity : AppCompatActivity() {
             AnimationUtils().animInRightToLeft(this)
         }
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        AnimationUtils().animOutLeftToRight(this)
+    }
 }
