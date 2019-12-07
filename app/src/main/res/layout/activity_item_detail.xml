@@ -62,9 +62,10 @@
 
             <ImageButton
                 android:id="@+id/btn_link"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/btn_next"
+                android:layout_width="66dp"
+                android:layout_height="66dp"
+                android:src="@drawable/btn_link"
+                android:background="@null"
                 app:layout_constraintBottom_toTopOf="@+id/view_underLine"
                 app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginEnd="20dp"

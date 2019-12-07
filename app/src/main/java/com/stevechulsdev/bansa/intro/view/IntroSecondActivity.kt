@@ -3,6 +3,7 @@ package com.stevechulsdev.bansa.intro.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.stevechulsdev.bansa.R
+import com.stevechulsdev.bansa.etc.AnimationUtils
 import kotlinx.android.synthetic.main.activity_intro_second.*
 import org.jetbrains.anko.startActivity
 
@@ -14,6 +15,7 @@ class IntroSecondActivity : AppCompatActivity() {
 
         btn_next.setOnClickListener {
             startActivity<IntroHashTagActivity>()
+            AnimationUtils().animInRightToLeft(this)
         }
     }
 }

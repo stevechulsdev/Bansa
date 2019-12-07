@@ -1,6 +1,5 @@
 package com.stevechulsdev.bansa.main
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -9,15 +8,16 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.DocumentSnapshot
 import com.stevechulsdev.bansa.R
+import com.stevechulsdev.bansa.etc.AnimationUtils
 import com.stevechulsdev.bansa.main.view.ItemDetailActivity
 import kotlinx.android.synthetic.main.cell_main.view.*
-import org.jetbrains.anko.startActivity
 import java.net.URL
 
-class AdapterMainFragment(val context: Context, val arrayList: ArrayList<DocumentSnapshot>): RecyclerView.Adapter<AdapterMainFragment.ViewHolder>() {
+class AdapterMainFragment(val mActivity: FragmentActivity, val context: Context, val arrayList: ArrayList<DocumentSnapshot>): RecyclerView.Adapter<AdapterMainFragment.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.cell_main, parent, false))
@@ -51,6 +51,7 @@ class AdapterMainFragment(val context: Context, val arrayList: ArrayList<Documen
                         intent.putExtra("url", arrayList[position].getString("url"))
 
                         context.startActivity(intent)
+                        AnimationUtils().animFadeInFadeOut(mActivity)
                     }
                 }
             }).start()

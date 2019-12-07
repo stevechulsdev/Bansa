@@ -46,7 +46,7 @@ class MainFragment: Fragment() {
                 }
 
                 view.recyclerView.addItemDecoration(ItemDecoration(this.context!!))
-                view.recyclerView.adapter = AdapterMainFragment(this.context!!, arrayList)
+                view.recyclerView.adapter = AdapterMainFragment(activity!!, this.context!!, arrayList)
             }
             .addOnFailureListener { exception ->
                 ScLog.e(Constants.IS_DEBUG, "getPostingList error : $exception")

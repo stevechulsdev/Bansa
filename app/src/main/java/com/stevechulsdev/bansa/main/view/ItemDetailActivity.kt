@@ -12,6 +12,7 @@ import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import com.stevechulsdev.bansa.R
+import com.stevechulsdev.bansa.etc.AnimationUtils
 import com.stevechulsdev.bansa.etc.Constants
 import com.stevechulsdev.scdisplayutils.ScDisplayUtils
 import kotlinx.android.synthetic.main.activity_item_detail.*
@@ -82,5 +83,10 @@ class ItemDetailActivity : AppCompatActivity() {
         tv_model.text = mModelName
         tv_price.text = NumberFormat.getCurrencyInstance(Locale.KOREA).format(mPrice.toLong())
         tv_contents.text = mDescription
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        AnimationUtils().animOutLeftToRight(this)
     }
 }

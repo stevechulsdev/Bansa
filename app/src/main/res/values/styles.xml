@@ -4,10 +4,11 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#f447a8</item>
-        <item name="colorPrimaryDark">#f447a8</item>
+        <item name="colorPrimaryDark">#ffffff</item>
         <item name="colorAccent">@color/colorAccent</item>
         <!-- 앱 첫 시작시 흰 화면 또는 검정 화면 안보여주는 설정 -->
         <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="TransparentActivity" parent="@style/AppTheme">
