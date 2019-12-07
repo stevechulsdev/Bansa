@@ -45,6 +45,10 @@ android {
 
             buildConfigField "String", "ADMOB_API_KEY", "\"" + getAdmobApiKey() + "\""
             buildConfigField "String", "ADMOB_AD_ID", "\"" + getAdmobAdId() + "\""
+
+            buildConfigField "String", "KAKAO_APP_KEY", "\"" + getKakaoAppKey() + "\""
+            buildConfigField "String", "KAKAO_SCHEME", "\"" + getKakaoScheme() + "\""
+            buildConfigField "String", "KAKAO_LINK_HOST", "\"" + getKakaoLinkHost() + "\""
         }
     } else {
         throw new GradleException("Could not read version.properties")
@@ -112,6 +116,24 @@ def getAdmobAdId() {
     return properties.getProperty("ADMOB_AD_ID")
 }
 
+def getKakaoAppKey() {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    return properties.getProperty("KAKAO_APP_KEY")
+}
+
+def getKakaoScheme() {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    return properties.getProperty("KAKAO_SCHEME")
+}
+
+def getKakaoLinkHost() {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    return properties.getProperty("KAKAO_LINK_HOST")
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -144,6 +166,8 @@ dependencies {
 
     // kakao login
     implementation group: 'com.kakao.sdk', name: 'usermgmt', version: '1.21.1'
+    implementation group: 'com.kakao.sdk', name: 'kakaolink', version: '1.21.1'
+
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
     // Google Admob

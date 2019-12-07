@@ -7,9 +7,9 @@
     <application
         android:name=".App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/app_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
@@ -27,6 +27,10 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
+                <data
+                    android:scheme="kakaodbaeb61adc86ec5a135e403a23a2b60e"
+                    android:host="kakaolink"/>
             </intent-filter>
         </activity> <!-- Kakao -->
         <meta-data

@@ -11,11 +11,18 @@ import android.os.Looper
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
+import com.kakao.kakaolink.v2.KakaoLinkResponse
+import com.kakao.kakaolink.v2.KakaoLinkService
+import com.kakao.kakaolink.v2.network.KakaoLinkCore
+import com.kakao.message.template.*
+import com.kakao.network.ErrorResult
+import com.kakao.network.callback.ResponseCallback
 import com.stevechulsdev.bansa.R
 import com.stevechulsdev.bansa.etc.AnimationUtils
 import com.stevechulsdev.bansa.etc.Constants
 import com.stevechulsdev.bansa.etc.Utils
 import com.stevechulsdev.scdisplayutils.ScDisplayUtils
+import com.stevechulsdev.sclog.ScLog
 import kotlinx.android.synthetic.main.activity_item_detail.*
 import java.net.URL
 import java.text.NumberFormat
@@ -88,6 +95,36 @@ class ItemDetailActivity : AppCompatActivity() {
 
         iv_back.setOnClickListener {
             onBackPressed()
+        }
+
+        ll_share_layout.setOnClickListener {
+            val params = FeedTemplate.newBuilder(ContentObject.newBuilder(
+                "$mBrand $mModelName",
+                mImagePath,
+                LinkObject.newBuilder().setWebUrl(mUrl).build())
+                .setDescrption(mDescription)
+                .build())
+                .setSocial(
+                    SocialObject.newBuilder()
+                        .setLikeCount(10)
+                        .setCommentCount(20)
+                        .build())
+                .addButton(
+                    ButtonObject("앱에서 보기",
+                    LinkObject.newBuilder()
+                        .setMobileWebUrl("")
+                        .build()))
+                .build()
+
+            KakaoLinkService.getInstance().sendDefault(this, params, object : ResponseCallback<KakaoLinkResponse>() {
+                override fun onSuccess(result: KakaoLinkResponse?) {
+                    ScLog.e(Constants.IS_DEBUG, result.toString())
+                }
+
+                override fun onFailure(errorResult: ErrorResult) {
+                    ScLog.e(Constants.IS_DEBUG, errorResult.errorMessage)
+                }
+            })
         }
     }
 
