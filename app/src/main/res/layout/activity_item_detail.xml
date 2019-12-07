@@ -112,7 +112,7 @@
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/btn_heart_off"
+                        android:src="@drawable/btn_heart_big_off"
                         android:layout_marginBottom="1dp"
                         android:layout_marginRight="4dp"/>
 
@@ -126,7 +126,7 @@
                         android:textColor="#444444"
                         android:letterSpacing="-0.03"
                         android:lineSpacingExtra="16sp"
-                        tools:text="10"
+                        android:text="0"
                         android:layout_marginBottom="3dp"
                         />
 
@@ -156,7 +156,7 @@
                         android:textColor="#444444"
                         android:letterSpacing="-0.03"
                         android:lineSpacingExtra="16sp"
-                        tools:text="10"
+                        android:text="0"
                         android:layout_marginBottom="3dp"
                         />
 
@@ -187,7 +187,7 @@
                         android:textColor="#444444"
                         android:letterSpacing="-0.03"
                         android:lineSpacingExtra="16sp"
-                        tools:text="10"
+                        android:text="0"
                         android:layout_marginBottom="2dp"
                         />
 
@@ -218,9 +218,8 @@
                         android:textColor="#444444"
                         android:letterSpacing="-0.03"
                         android:lineSpacingExtra="16sp"
-                        tools:text="10"
-                        android:layout_marginBottom="3dp"
-                        />
+                        android:text="0"
+                        android:layout_marginBottom="3dp" />
 
                 </LinearLayout>
 

@@ -36,35 +36,103 @@
             app:layout_constraintRight_toRightOf="parent" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:weightSum="3"
             app:layout_constraintTop_toBottomOf="@+id/iv_img"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginBottom="12dp"
-            android:layout_marginStart="17dp">
+            android:layout_marginStart="17dp"
+            android:layout_marginEnd="17dp">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:src="@drawable/btn_heart_off"
-                android:layout_marginBottom="1dp"
-                android:layout_gravity="bottom"
-                android:layout_marginRight="3dp"/>
-
-            <TextView
-                android:id="@+id/tv_like_count"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:fontFamily="sans-serif"
-                android:textStyle="normal"
-                android:textColor="#444444"
-                android:letterSpacing="-0.03"
-                android:lineSpacingExtra="16sp"
-                tools:text="10"
-                />
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/btn_heart_small_off"
+                    android:layout_marginBottom="1dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginRight="3dp"/>
+
+                <TextView
+                    android:id="@+id/tv_like_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="normal"
+                    android:textColor="#444444"
+                    android:letterSpacing="-0.03"
+                    android:lineSpacingExtra="16sp"
+                    android:text="0" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/btn_reply_small_off"
+                    android:layout_marginBottom="1dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginRight="3dp"/>
+
+                <TextView
+                    android:id="@+id/tv_reply_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="normal"
+                    android:textColor="#444444"
+                    android:letterSpacing="-0.03"
+                    android:lineSpacingExtra="16sp"
+                    android:text="0" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/btn_bookmark_small_off"
+                    android:layout_marginBottom="1dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginRight="3dp"/>
+
+                <TextView
+                    android:id="@+id/tv_bookmark_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="normal"
+                    android:textColor="#444444"
+                    android:letterSpacing="-0.03"
+                    android:lineSpacingExtra="16sp"
+                    android:text="0" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
