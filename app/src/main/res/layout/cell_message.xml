@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:gravity="center"
+        android:layout_margin="5dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top">
+
+            <TextView
+                android:id="@+id/tv_nickName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="123456"
+                android:textColor="#333333"
+                android:textSize="14sp"
+                android:letterSpacing="-0.03"
+                android:lineSpacingExtra="6sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="272dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="5dp">
+
+            <TextView
+                android:id="@+id/tv_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="최근댓글이 제일 아래로 최근댓글이 제일 아래로 최근댓글이 제일 아래로 최근댓글이 제일 아래로 최근댓글이 제일 아래로 "
+                android:textColor="#444444"
+                android:textSize="14sp"
+                android:letterSpacing="-0.08"
+                android:lineSpacingExtra="6sp"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="1일전"
+                    android:textSize="12sp"
+                    android:textColor="#666666"
+                    android:letterSpacing="-0.08"
+                    android:lineSpacingExtra="8sp"/>
+
+                <TextView
+                    android:id="@+id/tv_block"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="신고"
+                    android:textSize="12sp"
+                    android:textColor="#666666"
+                    android:letterSpacing="-0.08"
+                    android:lineSpacingExtra="8sp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

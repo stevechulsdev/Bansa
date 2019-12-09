@@ -7,6 +7,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.stevechulsdev.bansa.etc.Constants
 import com.stevechulsdev.bansa.etc.LocalPreference
 import com.stevechulsdev.sclog.ScLog
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class DBManager {
     var db: FirebaseFirestore = FirebaseFirestore.getInstance()
@@ -70,6 +73,57 @@ class DBManager {
             .get()
             .addOnSuccessListener {
 
+            }
+            .addOnFailureListener {
+                it.printStackTrace()
+            }
+    }
+
+    fun insertReply(postingId: String, message: String, insertReplyListener: () -> Unit) {
+        val replyData = hashMapOf(
+            "nickName" to LocalPreference.userNickName,
+            "message" to message,
+            "timeStamp" to Date().time.toString()
+        )
+        db.collection("PostingList")
+            .document(postingId)
+            .update("replyList", FieldValue.arrayUnion(replyData))
+            .addOnSuccessListener {
+                insertReplyListener.invoke()
+            }
+            .addOnFailureListener {
+                it.printStackTrace()
+            }
+    }
+
+    fun getReplyList(postingId: String, getReplyListListener: (ArrayList<HashMap<String, String>>) -> Unit) {
+        val replayList = ArrayList<HashMap<String, String>>()
+        db.collection("PostingList")
+            .document(postingId)
+            .get()
+            .addOnSuccessListener {
+                it.data?.get("replyList")?.let {
+                    for(data in (it as ArrayList<HashMap<String, String>>)) {
+                        replayList.add(data)
+                    }
+
+                    getReplyListListener.invoke(replayList)
+                }
+            }
+            .addOnFailureListener {
+                it.printStackTrace()
+            }
+    }
+
+    fun getReplyCount(postingId: String, getReplyCountListener: (Int) -> Unit) {
+        db.collection("PostingList")
+            .document(postingId)
+            .get()
+            .addOnSuccessListener {
+                it.data?.get("replyList")?.let {
+                    val size = (it as ArrayList<HashMap<String, String>>).size
+                    getReplyCountListener.invoke(size)
+                }
             }
             .addOnFailureListener {
                 it.printStackTrace()

@@ -26,10 +26,13 @@ import com.stevechulsdev.bansa.etc.LocalPreference
 import com.stevechulsdev.bansa.etc.Utils
 import com.stevechulsdev.bansa.firebase.DBManager
 import com.stevechulsdev.bansa.kakao.KakaoManager
+import com.stevechulsdev.bansa.reply.view.ReplyActivity
 import com.stevechulsdev.scdisplayutils.ScDisplayUtils
 import com.stevechulsdev.sclog.ScLog
 import kotlinx.android.synthetic.main.activity_item_detail.*
 import kotlinx.android.synthetic.main.cell_main.view.*
+import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.startActivity
 import java.net.URL
 import java.text.NumberFormat
 import java.util.*
@@ -68,6 +71,9 @@ class ItemDetailActivity : AppCompatActivity() {
 
     private val mBookMarkCount: Int
         get() = intent.getIntExtra("bookmarkCount", 0)
+
+    private val mReplyCount: Int
+        get() = intent.getIntExtra("replyCount", 0)
 
     private var isChange = false
 
@@ -118,6 +124,7 @@ class ItemDetailActivity : AppCompatActivity() {
         tv_contents.text = mDescription
         tv_like_count.text = "$mHeartCount"
         tv_bookmark_count.text = "$mBookMarkCount"
+        tv_reply_count.text = "$mReplyCount"
 
         if(mHeartUserId.isNotBlank()) {
             iv_heart.setImageResource(R.drawable.btn_heart_big_on)
@@ -209,6 +216,11 @@ class ItemDetailActivity : AppCompatActivity() {
             }
         }
 
+        ll_reply_layout.setOnClickListener {
+            startActivityForResult(intentFor<ReplyActivity>(
+                "postingId" to mPostingId
+            ), 3434)
+        }
 
     }
 
@@ -217,5 +229,22 @@ class ItemDetailActivity : AppCompatActivity() {
 
         super.onBackPressed()
         AnimationUtils().animOutLeftToRight(this)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when(requestCode) {
+            3434 -> {
+                if(resultCode == 4343) {
+                    data?.let {
+                        it.extras?.let {
+                            isChange = true
+                            tv_reply_count.text = it.getString("replyCount")
+                        }
+                    }
+                }
+            }
+        }
     }
 }

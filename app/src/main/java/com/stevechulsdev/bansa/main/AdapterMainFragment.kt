@@ -88,6 +88,13 @@ class AdapterMainFragment(val mActivity: FragmentActivity, val context: Context,
                     val bookmarkCount = bookmarkList.size
                     itemView.tv_bookmark_count.text = "$bookmarkCount"
 
+                    val replyList = arrayList[position].get("replyList")?.let {
+                        it as ArrayList<HashMap<String, String>>
+                    }
+
+                    val replyCount = replyList?.size?: 0
+                    itemView.tv_reply_count.text = "$replyCount"
+
                     // main image
                     Glide.with(itemView.iv_img)
                         .load(imagePath)
@@ -115,6 +122,8 @@ class AdapterMainFragment(val mActivity: FragmentActivity, val context: Context,
                                 intent.putExtra("bookmarkId", myBookMarkId)
                             }
                             intent.putExtra("bookmarkCount", bookmarkCount)
+
+                            intent.putExtra("replyCount", replyCount)
 
                             mActivity.startActivityForResult(intent, 5656)
                             AnimationUtils().animFadeInFadeOut(mActivity)

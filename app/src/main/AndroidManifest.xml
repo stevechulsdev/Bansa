@@ -12,12 +12,13 @@
         android:roundIcon="@mipmap/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".reply.view.ReplyActivity"></activity>
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-1688867616797097~7266347781" />
 
-        <activity android:name=".main.view.ItemDetailActivity"></activity>
+        <activity android:name=".main.view.ItemDetailActivity" />
         <activity android:name=".main.view.Main2Activity" />
         <activity android:name=".intro.view.IntroHashTagActivity" />
         <activity android:name=".intro.view.IntroSecondActivity" />
@@ -30,8 +31,8 @@
             </intent-filter>
             <intent-filter>
                 <data
-                    android:scheme="kakaodbaeb61adc86ec5a135e403a23a2b60e"
-                    android:host="kakaolink"/>
+                    android:host="kakaolink"
+                    android:scheme="kakaodbaeb61adc86ec5a135e403a23a2b60e" />
             </intent-filter>
         </activity> <!-- Kakao -->
         <meta-data
