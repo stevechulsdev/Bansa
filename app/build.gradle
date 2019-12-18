@@ -21,7 +21,7 @@ android {
         // Increase "value" variable only for export the release apk
         def value = 0
         def runTasks = gradle.startParameter.taskNames
-        if ('assemble' in runTasks || 'assembleRelease' in runTasks || 'aR' in runTasks) {
+        if ('assemble' in runTasks || 'assembleRelease' in runTasks || 'aR' in runTasks || 'bundleRelease' in runTasks) {
             value = 1
         }
 
