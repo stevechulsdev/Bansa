@@ -56,10 +56,10 @@ class MainFragment: Fragment() {
                     arrayList.add(postingData)
                 }
 
+                view.recyclerView.addItemDecoration(ItemDecoration(this.context!!))
                 view.recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
                 view.recyclerView.setHasFixedSize(true)
                 view.recyclerView.adapter = AdapterMainFragment(activity!!, this.context!!, arrayList)
-                view.recyclerView.addItemDecoration(ItemDecoration(this.context!!))
                 view.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                         super.onScrolled(recyclerView, dx, dy)

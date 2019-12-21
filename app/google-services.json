@@ -15,22 +15,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "57459034216-t6bi63eeksgcjj8qsn0tn6joiq6gc4hg.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.stevechulsdev.bansa",
-            "certificate_hash": "533cb98ceeea99402e91696eec1caaad5b61dc40"
-          }
-        },
-        {
-          "client_id": "57459034216-q6qvk08j0906cs705uj67fgfvhmmdu8u.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.stevechulsdev.bansa",
-            "certificate_hash": "2e4ce5f85f867f77b22e694f2461b2187897b9f8"
-          }
-        },
-        {
           "client_id": "57459034216-u131o16k7kdg2f3gq129piqf9t44nkk5.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
