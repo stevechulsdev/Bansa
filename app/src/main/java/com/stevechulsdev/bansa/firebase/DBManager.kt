@@ -6,6 +6,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.stevechulsdev.bansa.etc.Constants
 import com.stevechulsdev.bansa.etc.LocalPreference
+import com.stevechulsdev.scdisplayutils.ScDisplayUtils
 import com.stevechulsdev.sclog.ScLog
 import java.util.*
 import kotlin.collections.ArrayList
@@ -154,7 +155,7 @@ class DBManager {
             }
     }
 
-    fun getUserBookMarkData(bookMarkListener: (ArrayList<String>) -> Unit) {
+    fun getUserBookMarkData(bookMarkListener: (ArrayList<String>) -> Unit, bookMarkFailListener: (Exception) -> Unit) {
         val bookMarkList = ArrayList<String>()
 
         db.collection("UserData")
@@ -168,7 +169,7 @@ class DBManager {
                 bookMarkListener.invoke(bookMarkList)
             }
             .addOnFailureListener {
-                it.printStackTrace()
+                bookMarkFailListener.invoke(it)
             }
     }
 
@@ -188,6 +189,7 @@ class DBManager {
             }
             .addOnFailureListener {
                 it.printStackTrace()
+                ScDisplayUtils.hideProgressBar()
             }
     }
 
@@ -233,6 +235,7 @@ class DBManager {
             }
             .addOnFailureListener {
                 it.printStackTrace()
+                ScDisplayUtils.hideProgressBar()
             }
     }
 

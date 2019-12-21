@@ -86,7 +86,7 @@
 
         <EditText
             android:id="@+id/edit_input_message"
-            android:layout_width="292dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:minHeight="38dp"
             android:hint="댓글을 입력하세요"
@@ -98,6 +98,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/btn_insert_message"
+            android:layout_marginEnd="12dp"
             android:layout_marginStart="16dp"/>
 
         <TextView

@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.InterstitialAd
 import com.kakao.kakaolink.v2.KakaoLinkResponse
 import com.kakao.kakaolink.v2.KakaoLinkService
@@ -82,6 +83,8 @@ class ItemDetailActivity : AppCompatActivity() {
         Utils.setStatusColor(this, "#ffffff")
         setContentView(R.layout.activity_item_detail)
 
+        setAdMob()
+
         Thread(Runnable {
             Handler(Looper.getMainLooper()).post {
 
@@ -95,7 +98,7 @@ class ItemDetailActivity : AppCompatActivity() {
 
                     val ad = InterstitialAd(this)
                     ad?.let {
-                        it.adUnitId = Constants.ADMOB_AD_ID
+                        it.adUnitId = Constants.ADMOB_AD_FULL_TEST_ID
                         it.loadAd(AdRequest.Builder().build())
                         it.adListener = object : AdListener() {
                             override fun onAdFailedToLoad(p0: Int) {
@@ -163,18 +166,24 @@ class ItemDetailActivity : AppCompatActivity() {
                         .build()))
                 .build()
 
+            ScDisplayUtils.showProgressBar(this, false, Color.parseColor("#f447a8"))
+
             KakaoLinkService.getInstance().sendDefault(this, params, object : ResponseCallback<KakaoLinkResponse>() {
                 override fun onSuccess(result: KakaoLinkResponse?) {
                     ScLog.e(Constants.IS_DEBUG, result.toString())
+                    ScDisplayUtils.hideProgressBar()
                 }
 
                 override fun onFailure(errorResult: ErrorResult) {
                     ScLog.e(Constants.IS_DEBUG, errorResult.errorMessage)
+                    ScDisplayUtils.hideProgressBar()
                 }
             })
         }
 
         ll_bookMark.setOnClickListener {
+            ScDisplayUtils.showProgressBar(this, false, Color.parseColor("#f447a8"))
+
             DBManager().setBookMark(mPostingId) { isBookMark ->
                 isChange = true
 
@@ -183,6 +192,7 @@ class ItemDetailActivity : AppCompatActivity() {
                         DBManager().offBookMark(mPostingId) {
                             iv_bookMark.setImageResource(R.drawable.btn_bookmark_big_off)
                             tv_bookmark_count.text = (tv_bookmark_count.text.toString().toInt() - 1).toString()
+                            ScDisplayUtils.hideProgressBar()
                         }
                     }
                 }
@@ -191,6 +201,7 @@ class ItemDetailActivity : AppCompatActivity() {
                         DBManager().onBookMark(mPostingId) {
                             iv_bookMark.setImageResource(R.drawable.btn_bookmark_small_on)
                             tv_bookmark_count.text = (tv_bookmark_count.text.toString().toInt() + 1).toString()
+                            ScDisplayUtils.hideProgressBar()
                         }
                     }
                 }
@@ -198,6 +209,8 @@ class ItemDetailActivity : AppCompatActivity() {
         }
 
         ll_like_layout.setOnClickListener {
+            ScDisplayUtils.showProgressBar(this, false, Color.parseColor("#f447a8"))
+
             DBManager().setLike(mPostingId) { isLike ->
                 isChange = true
 
@@ -205,12 +218,14 @@ class ItemDetailActivity : AppCompatActivity() {
                     DBManager().offLike(mPostingId) {
                         iv_heart.setImageResource(R.drawable.btn_heart_big_off)
                         tv_like_count.text = (tv_like_count.text.toString().toInt() - 1).toString()
+                        ScDisplayUtils.hideProgressBar()
                     }
                 }
                 else {
                     DBManager().onLike(mPostingId) {
                         iv_heart.setImageResource(R.drawable.btn_heart_big_on)
                         tv_like_count.text = (tv_like_count.text.toString().toInt() + 1).toString()
+                        ScDisplayUtils.hideProgressBar()
                     }
                 }
             }
@@ -220,6 +235,11 @@ class ItemDetailActivity : AppCompatActivity() {
             startActivityForResult(intentFor<ReplyActivity>(
                 "postingId" to mPostingId
             ), 3434)
+        }
+
+        btn_my_info.setOnClickListener {
+            startActivity<MyInfoActivity>()
+            AnimationUtils().animInRightToLeft(this)
         }
 
     }
@@ -245,6 +265,33 @@ class ItemDetailActivity : AppCompatActivity() {
                     }
                 }
             }
+        }
+    }
+
+    private fun setAdMob() {
+        try {
+            val adRequest = AdRequest.Builder().build()
+            adView.loadAd(adRequest)
+
+            adView.adListener = object : AdListener() {
+
+                override fun onAdLoaded() {
+                    // 광고가 문제 없이 로드시 호출
+                    ScLog.e(true, "onAdLoaded")
+                }
+                override fun onAdFailedToLoad(errorCode: Int) {
+                    // 광고 로드에 문제가 있을시 호출
+                    ScLog.e(true, "onAdFailedToLoad $errorCode")
+                }
+                override fun onAdOpened() {}
+                override fun onAdClicked() {}
+                override fun onAdLeftApplication() {}
+                override fun onAdClosed() {}
+            }
+        }
+        catch (e: Exception) {
+            e.printStackTrace()
+            ScDisplayUtils.hideProgressBar()
         }
     }
 }

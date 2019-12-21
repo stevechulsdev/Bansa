@@ -44,7 +44,8 @@ android {
             buildConfigField "String", "KAKAO_API_KEY", "\"" + getKakaoApiKey() + "\""
 
             buildConfigField "String", "ADMOB_API_KEY", "\"" + getAdmobApiKey() + "\""
-            buildConfigField "String", "ADMOB_AD_ID", "\"" + getAdmobAdId() + "\""
+            buildConfigField "String", "ADMOB_AD_FULL_TEST_ID", "\"" + getAdmobAdFullTestId() + "\""
+            buildConfigField "String", "ADMOB_AD_BOTTOM_TEST_ID", "\"" + getAdmobAdBottomTestId() + "\""
 
             buildConfigField "String", "KAKAO_APP_KEY", "\"" + getKakaoAppKey() + "\""
             buildConfigField "String", "KAKAO_SCHEME", "\"" + getKakaoScheme() + "\""
@@ -110,10 +111,16 @@ def getAdmobApiKey() {
     return properties.getProperty("ADMOB_API_KEY")
 }
 
-def getAdmobAdId() {
+def getAdmobAdFullTestId() {
     Properties properties = new Properties()
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
-    return properties.getProperty("ADMOB_AD_ID")
+    return properties.getProperty("ADMOB_AD_FULL_TEST_ID")
+}
+
+def getAdmobAdBottomTestId() {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    return properties.getProperty("ADMOB_AD_BOTTOM_TEST_ID")
 }
 
 def getKakaoAppKey() {

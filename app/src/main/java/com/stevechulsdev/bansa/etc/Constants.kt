@@ -19,7 +19,8 @@ object Constants {
     const val GOOGLE_API_KEY = BuildConfig.GOOGLE_API_KEY
 
     const val ADMOB_API_KEY = BuildConfig.ADMOB_API_KEY
-    const val ADMOB_AD_ID = BuildConfig.ADMOB_AD_ID
+    const val ADMOB_AD_FULL_TEST_ID = BuildConfig.ADMOB_AD_FULL_TEST_ID
+    const val ADMOB_AD_BOTTOM_TEST_ID = BuildConfig.ADMOB_AD_BOTTOM_TEST_ID
 
 
 

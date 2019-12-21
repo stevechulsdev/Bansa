@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".reply.view.ReplyActivity"></activity>
+        <activity android:name=".main.view.MyInfoActivity"></activity>
+        <activity android:name=".reply.view.ReplyActivity" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"

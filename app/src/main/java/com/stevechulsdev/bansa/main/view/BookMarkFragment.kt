@@ -1,6 +1,7 @@
 package com.stevechulsdev.bansa.main.view
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import com.stevechulsdev.bansa.etc.LocalPreference
 import com.stevechulsdev.bansa.firebase.DBManager
 import com.stevechulsdev.bansa.login.view.LoginActivity
 import com.stevechulsdev.bansa.main.AdapterMainFragment
+import com.stevechulsdev.scdisplayutils.ScDisplayUtils
 import com.stevechulsdev.sclog.ScLog
 import kotlinx.android.synthetic.main.fragment_main.view.*
 import org.jetbrains.anko.startActivity
@@ -43,26 +45,39 @@ class BookMarkFragment: Fragment() {
     }
 
     private fun getBookMarkList(view: View) {
-        DBManager().getUserBookMarkData { bookMarkList ->
-            var dataList = ArrayList<DocumentSnapshot>()
-
-            for(postingId in bookMarkList) {
-                DBManager().db.collection("PostingList")
-                    .document(postingId)
-                    .get()
-                    .addOnSuccessListener {
-                        dataList.add(it)
-
-                        if(dataList.size == bookMarkList.size) {
-                            view.recyclerView.addItemDecoration(ItemDecoration(this.context!!))
-                            view.recyclerView.adapter = AdapterMainFragment(activity!!, this.context!!, dataList)
-                            view.recyclerView.setHasFixedSize(true)
-                        }
-                    }
-                    .addOnFailureListener {
-                        it.printStackTrace()
-                    }
-            }
+        activity?.let {
+            ScDisplayUtils.showProgressBar(it, false, Color.parseColor("#f447a8"))
         }
+
+        DBManager().getUserBookMarkData(
+            { bookMarkList ->
+                var dataList = ArrayList<DocumentSnapshot>()
+
+                for(postingId in bookMarkList) {
+                    DBManager().db.collection("PostingList")
+                        .document(postingId)
+                        .get()
+                        .addOnSuccessListener {
+                            dataList.add(it)
+
+                            if(dataList.size == bookMarkList.size) {
+//                            view.recyclerView.addItemDecoration(ItemDecoration(this.context!!))
+                                view.recyclerView.adapter = AdapterMainFragment(activity!!, this.context!!, dataList)
+                                view.recyclerView.setHasFixedSize(true)
+                            }
+
+                            ScDisplayUtils.hideProgressBar()
+                        }
+                        .addOnFailureListener {
+                            it.printStackTrace()
+                            ScDisplayUtils.hideProgressBar()
+                        }
+                }
+            },
+            {
+                it.printStackTrace()
+                ScDisplayUtils.hideProgressBar()
+            }
+        )
     }
 }

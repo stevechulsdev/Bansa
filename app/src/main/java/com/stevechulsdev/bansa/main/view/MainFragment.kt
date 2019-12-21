@@ -2,6 +2,7 @@ package com.stevechulsdev.bansa.main.view
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,15 +12,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.firebase.firestore.DocumentSnapshot
 import com.stevechulsdev.bansa.R
-import com.stevechulsdev.bansa.etc.Constants
-import com.stevechulsdev.bansa.etc.ItemDecoration
-import com.stevechulsdev.bansa.etc.LocalPreference
-import com.stevechulsdev.bansa.etc.Utils
+import com.stevechulsdev.bansa.etc.*
 import com.stevechulsdev.bansa.etc.view.CustomLoginDialog
 import com.stevechulsdev.bansa.firebase.DBManager
 import com.stevechulsdev.bansa.kakao.KakaoManager
 import com.stevechulsdev.bansa.login.view.LoginActivity
 import com.stevechulsdev.bansa.main.AdapterMainFragment
+import com.stevechulsdev.scdisplayutils.ScDisplayUtils
 import com.stevechulsdev.sclog.ScLog
 import kotlinx.android.synthetic.main.fragment_main.view.*
 import org.jetbrains.anko.startActivity
@@ -47,6 +46,10 @@ class MainFragment: Fragment() {
     }
 
     private fun getPostingData(context: Context, view: View) {
+        activity?.let {
+            ScDisplayUtils.showProgressBar(it, false, Color.parseColor("#f447a8"))
+        }
+
         DBManager().db.collection("PostingList")
             .get()
             .addOnSuccessListener {
@@ -56,7 +59,6 @@ class MainFragment: Fragment() {
                     arrayList.add(postingData)
                 }
 
-                view.recyclerView.addItemDecoration(ItemDecoration(this.context!!))
                 view.recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
                 view.recyclerView.setHasFixedSize(true)
                 view.recyclerView.adapter = AdapterMainFragment(activity!!, this.context!!, arrayList)
@@ -73,8 +75,11 @@ class MainFragment: Fragment() {
                         }
                     }
                 })
+
+                ScDisplayUtils.hideProgressBar()
             }
             .addOnFailureListener { exception ->
+                ScDisplayUtils.hideProgressBar()
                 ScLog.e(Constants.IS_DEBUG, "getPostingList error : $exception")
             }
     }

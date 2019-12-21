@@ -8,6 +8,7 @@ import com.stevechulsdev.bansa.etc.Constants
 import com.stevechulsdev.bansa.intro.view.IntroFirstActivity
 import org.jetbrains.anko.startActivity
 import com.stevechulsdev.bansa.etc.Utils
+import com.stevechulsdev.bansa.main.view.Main2Activity
 
 
 class SplashActivity : AppCompatActivity() {
@@ -18,7 +19,13 @@ class SplashActivity : AppCompatActivity() {
         setContentView(com.stevechulsdev.bansa.R.layout.activity_splash)
 
         Handler().postDelayed({
-            startActivity<IntroFirstActivity>()
+            if(Utils.getLocalUserDataBoolean(this, Constants.LOCAL_DATA_KEY_USER_IS_LOGIN)) {
+                startActivity<Main2Activity>()
+            }
+            else {
+                startActivity<IntroFirstActivity>()
+            }
+
             finish()
             AnimationUtils().animFadeInFadeOut(this)
         }, Constants.SPLASH_TIME)

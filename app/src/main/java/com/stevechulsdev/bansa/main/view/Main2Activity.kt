@@ -5,6 +5,7 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.stevechulsdev.bansa.R
+import com.stevechulsdev.bansa.etc.AnimationUtils
 import com.stevechulsdev.bansa.etc.Constants
 import com.stevechulsdev.bansa.etc.LocalPreference
 import com.stevechulsdev.bansa.etc.Utils
@@ -13,6 +14,8 @@ import com.stevechulsdev.bansa.login.view.LoginActivity
 import com.stevechulsdev.scdisplayutils.ScDisplayUtils
 import kotlinx.android.synthetic.main.activity_intro_hash_tag.cl_main_layout
 import kotlinx.android.synthetic.main.activity_main2.*
+import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 
 class Main2Activity : AppCompatActivity() {
@@ -55,6 +58,16 @@ class Main2Activity : AppCompatActivity() {
             iv_search.setImageResource(R.drawable.menu_bottom_search_off)
             tv_search.setTextColor(Color.parseColor("#000000"))
             supportFragmentManager.beginTransaction().replace(R.id.fl_content_layout, BookMarkFragment.newInstance()).commit()
+        }
+
+        btn_my_info.setOnClickListener {
+            if(!LocalPreference.isLogin) {
+                startActivityForResult<LoginActivity>(Constants.REQUEST_CODE_GO_LOGIN)
+            }
+            else {
+                startActivity<MyInfoActivity>()
+                AnimationUtils().animInRightToLeft(this)
+            }
         }
     }
 
